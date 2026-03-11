@@ -1,0 +1,217 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── THEME TOKENS ──────────────────────────────────────────────────────── */
+/*
+  Charcoal (--c-*):  backgrounds, surfaces, borders
+  Cream (--cr-*):    text, foreground content
+  Dark mode = default. Light mode = .light class on <html>.
+*/
+
+:root {
+  /* Dark mode — default */
+  --c-950: 10 10 10;
+  --c-900: 17 17 17;
+  --c-800: 26 26 26;
+  --c-700: 36 36 36;
+  --c-600: 46 46 46;
+
+  --cr-50:  253 251 245;
+  --cr-100: 250 246 236;
+  --cr-200: 244 237 218;
+  --cr-300: 236 224 196;
+
+  --scrollbar-track: #1a1a1a;
+  --scrollbar-thumb: #C9A84C66;
+  --scrollbar-thumb-hover: #C9A84C;
+  --selection-bg: #C9A84C33;
+  --selection-fg: #faf6ec;
+  --card-shadow-hover: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px #C9A84C22;
+}
+
+html.light {
+  /* Light mode — warm parchment palette */
+  --c-950: 253 251 245;   /* warmest page bg  */
+  --c-900: 247 242 232;   /* surface / header */
+  --c-800: 240 234 220;   /* card bg          */
+  --c-700: 229 220 202;   /* borders          */
+  --c-600: 214 204 183;   /* input borders    */
+
+  --cr-50:  18 14 5;
+  --cr-100: 26 20 6;      /* near-black warm  */
+  --cr-200: 52 42 20;     /* dark warm brown  */
+  --cr-300: 80 66 34;     /* medium warm      */
+
+  --scrollbar-track: #f0eadc;
+  --scrollbar-thumb: #C9A84C88;
+  --scrollbar-thumb-hover: #a8882e;
+  --selection-bg: #C9A84C44;
+  --selection-fg: #1a1406;
+  --card-shadow-hover: 0 20px 60px rgba(0,0,0,0.08), 0 0 0 1px #C9A84C33;
+}
+
+/* ─── BASE ──────────────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    @apply scroll-smooth;
+    background-color: rgb(var(--c-900));
+    color: rgb(var(--cr-100));
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    background-color: rgb(var(--c-900));
+    transition: background-color 0.3s ease;
+  }
+
+  ::selection {
+    background-color: var(--selection-bg);
+    color: var(--selection-fg);
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+}
+
+/* ─── COMPONENTS ────────────────────────────────────────────────────────── */
+@layer components {
+  .btn-gold {
+    @apply inline-flex items-center gap-2 px-7 py-3.5 bg-gold text-charcoal-950 font-sans font-medium text-sm tracking-widest uppercase transition-all duration-300;
+    letter-spacing: 0.12em;
+  }
+  .btn-gold:hover {
+    @apply bg-gold-light shadow-lg;
+    box-shadow: 0 0 30px #C9A84C44;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center gap-2 px-7 py-3.5 border border-gold text-gold font-sans font-medium text-sm uppercase transition-all duration-300;
+    letter-spacing: 0.12em;
+  }
+  .btn-outline:hover {
+    @apply bg-gold text-charcoal-950;
+  }
+
+  .section-label {
+    @apply font-sans text-gold text-xs uppercase mb-4;
+    letter-spacing: 0.2em;
+  }
+
+  .heading-display {
+    @apply font-serif text-cream-100;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+
+  .heading-section {
+    @apply font-serif text-cream-100;
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+
+  .gold-divider {
+    @apply w-12 h-px bg-gold my-6;
+  }
+
+  .card-dark {
+    @apply bg-charcoal-800 border border-charcoal-700 transition-all duration-500;
+  }
+  .card-dark:hover {
+    @apply border-gold/30;
+    box-shadow: var(--card-shadow-hover);
+  }
+
+  .input-dark {
+    @apply w-full bg-charcoal-800 border border-charcoal-600 text-cream-100 px-4 py-3 font-sans text-sm placeholder-cream-200/30 transition-all duration-200 focus:outline-none focus:border-gold/60;
+  }
+
+  .tag {
+    @apply inline-flex items-center px-3 py-1 text-xs font-sans uppercase tracking-widest border border-charcoal-600 text-cream-200/60;
+  }
+
+  .tag-gold {
+    @apply inline-flex items-center px-3 py-1 text-xs font-sans uppercase tracking-widest border border-gold/40 text-gold;
+  }
+}
+
+/* ─── UTILITIES ──────────────────────────────────────────────────────────── */
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+
+  .animate-delay-100 { animation-delay: 100ms; }
+  .animate-delay-200 { animation-delay: 200ms; }
+  .animate-delay-300 { animation-delay: 300ms; }
+  .animate-delay-400 { animation-delay: 400ms; }
+  .animate-delay-500 { animation-delay: 500ms; }
+
+  .clip-diagonal {
+    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+  }
+  .clip-diagonal-reverse {
+    clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 100%);
+  }
+  .writing-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+}
+
+/* ─── LIGHT MODE — HERO GRADIENT ADJUSTMENTS ─────────────────────────────
+   In light mode, hero image overlays need stronger opacity so text stays
+   readable (page bg is now light, not dark).
+*/
+html.light .hero-overlay-gradient {
+  background: linear-gradient(
+    to top,
+    rgb(var(--c-950) / 0.97) 0%,
+    rgb(var(--c-950) / 0.65) 40%,
+    transparent 100%
+  );
+}
+
+/* ─── THEME TRANSITION ───────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color;
+  transition-duration: 0.25s;
+  transition-timing-function: ease;
+}
+/* Don't animate things that shouldn't animate */
+img, video, svg, canvas,
+.animate-fade-up, .animate-fade-in, .animate-shimmer,
+[class*="animate-"] {
+  transition: none;
+}
+
+/* ─── TOAST ──────────────────────────────────────────────────────────────── */
+.toast-enter-active,
+.toast-leave-active {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.toast-enter-from { opacity: 0; transform: translateX(100%); }
+.toast-leave-to   { opacity: 0; transform: translateX(100%); }
+
+/* ─── PAGE TRANSITIONS ───────────────────────────────────────────────────── */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.page-enter-from { opacity: 0; transform: translateY(12px); }
+.page-leave-to   { opacity: 0; transform: translateY(-8px); }
+
+/* ─── PRINT ──────────────────────────────────────────────────────────────── */
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; color: black; }
+  .heading-display, .heading-section { color: black; }
+}
