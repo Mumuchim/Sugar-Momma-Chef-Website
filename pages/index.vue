@@ -208,17 +208,18 @@
     </section>
 
     <!-- ── COOKING CLASSES ───────────────────────────────────── -->
-    <section class="py-28 bg-charcoal-800 clip-diagonal-reverse">
+    <section class="py-24 bg-charcoal-800 relative overflow-hidden">
+      <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
       <div class="container mx-auto px-6 lg:px-16 max-w-7xl">
-        <div class="flex items-end justify-between mb-16">
+        <div class="flex flex-wrap items-end justify-between gap-4 mb-14">
           <div>
             <p class="section-label">Learn & Create</p>
             <h2 class="heading-section">Cooking Classes</h2>
           </div>
-          <NuxtLink to="/classes" class="btn-outline hidden md:inline-flex">View Schedule</NuxtLink>
+          <NuxtLink to="/classes" class="btn-outline text-sm">View Schedule</NuxtLink>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-6">
+        <div v-if="upcomingClasses?.length" class="grid md:grid-cols-3 gap-6">
           <div
             v-for="cls in upcomingClasses"
             :key="cls.id"
@@ -237,11 +238,22 @@
           </div>
         </div>
 
-        <!-- Empty state for classes -->
-        <div v-if="!upcomingClasses?.length" class="text-center py-16 border border-charcoal-700">
-          <p class="font-serif text-cream-200/40 text-2xl italic">No upcoming classes scheduled.</p>
-          <p class="font-sans text-cream-200/40 mt-3 text-sm">Check back soon or join the newsletter.</p>
+        <!-- Empty state: clean placeholder cards -->
+        <div v-else class="grid md:grid-cols-3 gap-6">
+          <div
+            v-for="i in 3"
+            :key="i"
+            class="border border-charcoal-700/60 border-dashed p-8 flex flex-col items-center justify-center text-center gap-3 min-h-[180px]"
+          >
+            <svg class="w-8 h-8 text-charcoal-600" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            <p class="font-serif text-cream-200/20 text-sm italic">Coming soon</p>
+          </div>
         </div>
+        <p v-if="!upcomingClasses?.length" class="font-sans text-cream-200/40 text-sm text-center mt-8">
+          No classes scheduled yet — join the newsletter to be first to know.
+        </p>
       </div>
     </section>
 

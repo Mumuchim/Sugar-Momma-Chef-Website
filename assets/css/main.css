@@ -209,6 +209,19 @@ img, video, svg, canvas,
 .page-enter-from { opacity: 0; transform: translateY(12px); }
 .page-leave-to   { opacity: 0; transform: translateY(-8px); }
 
+/* ─── FOCUS STYLES ───────────────────────────────────────────────────────── */
+/* Accessible focus ring using gold accent */
+:focus-visible {
+  outline: 2px solid #C9A84C;
+  outline-offset: 3px;
+}
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #C9A84C66;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 /* ─── PRINT ──────────────────────────────────────────────────────────────── */
 @media print {
   .no-print { display: none !important; }

@@ -1,7 +1,7 @@
 <template>
   <header
     class="fixed top-0 inset-x-0 z-50 transition-all duration-500"
-    :class="scrolled ? 'bg-charcoal-900/95 backdrop-blur-sm border-b border-charcoal-700' : 'bg-transparent'"
+    :class="scrolled ? 'bg-charcoal-900/95 backdrop-blur-sm border-b border-charcoal-700 shadow-lg' : 'bg-transparent'"
   >
     <div class="container mx-auto px-6 lg:px-16 max-w-7xl">
       <div class="flex items-center justify-between h-18">
@@ -14,10 +14,12 @@
             v-for="link in navLinks"
             :key="link.to"
             :to="link.to"
-            class="font-sans text-sm text-cream-200/70 hover:text-cream-100 transition-colors duration-200 uppercase tracking-widest"
-            active-class="text-gold"
+            class="nav-link font-sans text-sm text-cream-200/70 hover:text-cream-100 transition-colors duration-200 uppercase tracking-widest relative py-1"
+            active-class="nav-link-active text-gold"
           >
             {{ link.label }}
+            <!-- Active underline indicator -->
+            <span class="nav-underline absolute bottom-0 left-0 w-full h-px bg-gold scale-x-0 transition-transform duration-300 origin-left" />
           </NuxtLink>
         </nav>
 
@@ -60,14 +62,20 @@
           v-for="link in navLinks"
           :key="link.to"
           :to="link.to"
-          class="block font-sans text-cream-200/70 hover:text-gold transition-colors py-2 uppercase tracking-widest text-sm"
+          class="block font-sans text-cream-200/70 hover:text-gold transition-colors py-2.5 uppercase tracking-widest text-sm border-b border-charcoal-800 last:border-0"
+          active-class="text-gold"
           @click="mobileOpen = false"
         >
           {{ link.label }}
         </NuxtLink>
-        <NuxtLink to="/orders" class="btn-gold w-full text-center mt-4" @click="mobileOpen = false">
-          Order Now
-        </NuxtLink>
+
+        <!-- Mobile: Order + Theme toggle row -->
+        <div class="flex items-center justify-between pt-2">
+          <NuxtLink to="/orders" class="btn-gold flex-1 text-center mr-3" @click="mobileOpen = false">
+            Order Now
+          </NuxtLink>
+          <ThemeToggle />
+        </div>
       </div>
     </Transition>
   </header>
@@ -112,5 +120,11 @@ onUnmounted(() => {
 .mobile-menu-leave-to {
   opacity: 0;
   transform: translateY(-8px);
+}
+
+/* Active nav underline */
+.nav-link-active .nav-underline,
+.nav-link:hover .nav-underline {
+  transform: scaleX(1);
 }
 </style>
