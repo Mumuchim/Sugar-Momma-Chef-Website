@@ -27,3 +27,5 @@ Thumbs.db
 
 # Nuxt dev
 .nuxt/
+
+*.zip
