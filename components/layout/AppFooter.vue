@@ -60,6 +60,7 @@
         <div class="flex gap-6">
           <NuxtLink to="/privacy" class="font-sans text-xs text-cream-200/30 hover:text-cream-200/60 transition-colors">Privacy Policy</NuxtLink>
           <NuxtLink to="/terms" class="font-sans text-xs text-cream-200/30 hover:text-cream-200/60 transition-colors">Terms of Service</NuxtLink>
+          <NuxtLink to="/admin/login" class="font-sans text-xs text-cream-200/20 hover:text-cream-200/50 transition-colors">Admin</NuxtLink>
         </div>
       </div>
     </div>
