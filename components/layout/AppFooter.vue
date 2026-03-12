@@ -16,7 +16,7 @@
           </p>
           <!-- Chef credit -->
           <p class="font-sans text-cream-200/30 text-xs mt-4 uppercase tracking-widest">
-            By Chef Maria Santos · Manila, Philippines
+            By Chef Regina Faustino · Rizal, Philippines
           </p>
           <div class="flex gap-4 mt-6">
             <a href="https://instagram.com" target="_blank" class="w-9 h-9 border border-charcoal-700 hover:border-gold flex items-center justify-center text-cream-200/50 hover:text-gold transition-all duration-200" aria-label="Instagram">
@@ -48,7 +48,7 @@
         <div>
           <p class="section-label mb-4">Contact</p>
           <div class="space-y-2.5 font-sans text-sm text-cream-200/50">
-            <p>Manila, Philippines</p>
+            <p>Rizal, Philippines</p>
             <a href="mailto:hello@sugarmomma.ph" class="hover:text-gold transition-colors block">
               hello@sugarmomma.ph
             </a>
@@ -70,7 +70,7 @@
       <!-- Bottom bar -->
       <div class="border-t border-charcoal-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
         <p class="font-sans text-xs text-cream-200/30">
-          © {{ new Date().getFullYear() }} Sugar Momma by Chef Maria Santos. All rights reserved.
+          © {{ new Date().getFullYear() }} Sugar Momma by Chef Regina Faustino. All rights reserved.
         </p>
         <div class="flex items-center gap-6">
           <NuxtLink to="/privacy" class="font-sans text-xs text-cream-200/30 hover:text-cream-200/60 transition-colors">Privacy Policy</NuxtLink>
@@ -105,7 +105,7 @@ const links = [
   { to: '/collections', label: 'Premium Collections' },
   { to: '/classes', label: 'Cooking Classes' },
   { to: '/orders', label: 'Custom Orders' },
-  { to: '/about', label: 'About Chef Maria' },
+  { to: '/about', label: 'About Chef Regina' },
   { to: '/contact', label: 'Contact' },
 ]
 

@@ -50,7 +50,7 @@ const sections = [
   },
   {
     title: 'Intellectual Property',
-    content: 'All recipes, photographs, videos, and content on this website are the exclusive property of Sugar Momma and Chef Maria Santos. You may not reproduce, distribute, or create derivative works without explicit written permission.',
+    content: 'All recipes, photographs, videos, and content on this website are the exclusive property of Sugar Momma and Chef Regina Faustino. You may not reproduce, distribute, or create derivative works without explicit written permission.',
   },
   {
     title: 'Limitation of Liability',

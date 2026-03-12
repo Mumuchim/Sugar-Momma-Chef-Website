@@ -15,7 +15,7 @@
             <div class="aspect-[3/4] overflow-hidden">
               <img
                 src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80"
-                alt="Chef Maria Santos — Executive Pastry Chef, Sugar Momma"
+                alt="Chef Regina Faustino — Executive Head Chef, Sugar Momma"
                 class="w-full h-full object-cover"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-charcoal-950/40 to-transparent" />
@@ -39,27 +39,27 @@
           <!-- Story -->
           <div class="space-y-12">
             <div>
-              <p class="section-label">Executive Pastry Chef</p>
-              <h2 class="heading-section mb-2">Chef Maria Santos</h2>
+              <p class="section-label">Executive Head Chef</p>
+              <h2 class="heading-section mb-2">Chef Regina Faustino</h2>
               <p class="font-sans text-gold/70 text-sm uppercase tracking-widest">Founder & Head Chef, Sugar Momma</p>
               <div class="gold-divider" />
             </div>
 
             <div class="space-y-6 font-sans text-cream-200/70 leading-relaxed">
               <p>
-                Chef Maria Santos grew up watching her grandmother make kakanin in a small kitchen in Bulacan — measuring nothing, wasting nothing, pouring everything into each piece. That memory became the foundation of everything she would later learn to do with precision.
+                Chef Regina Faustino grew up watching her grandmother make kakanin in a small kitchen in Bulacan — measuring nothing, wasting nothing, pouring everything into each piece. That memory became the foundation of everything she would later learn to do with precision.
               </p>
               <p>
                 After graduating from <span class="text-cream-100">Le Cordon Bleu in Paris</span> with a Pâtisserie Diploma, Maria spent three formative years in Tokyo at <span class="text-cream-100">Nihonbashi Yukari</span>, a restaurant renowned for bridging Japanese kaiseki tradition with French technique. It was there she fell in love with the philosophy of <em class="text-gold not-italic">kanso</em> — simplicity as the highest form of refinement.
               </p>
               <p>
-                Returning to Manila as Head Pastry Chef at <span class="text-cream-100">Pioneer Centre</span>, she led the dessert program that earned the restaurant its first appearance in the Asia's 50 Best extended list. But the kitchen, while fulfilling, wasn't enough.
+                Returning to Rizal as Executive Head Chef at <span class="text-cream-100">ABCT Japanese Restaurant</span>, she led the dessert program that earned the restaurant its first appearance in the Asia's 50 Best extended list. But the kitchen, while fulfilling, wasn't enough.
               </p>
               <p>
-                <span class="text-cream-100 font-medium">Sugar Momma</span> was Maria's answer to a simpler question: what if the most exquisite pastry wasn't locked inside a fine-dining reservation? What if it could live in your home, in your kitchen, in the hands of someone she taught herself?
+                <span class="text-cream-100 font-medium">Sugar Momma</span> was Regina's answer to a simpler question: what if the most exquisite pastry wasn't locked inside a fine-dining reservation? What if it could live in your home, in your kitchen, in the hands of someone she taught herself?
               </p>
               <p>
-                Today, Sugar Momma is more than a brand. It's a living archive of Maria's journey — recipes she developed in Tokyo, techniques she refined in Paris, and flavors that have always been Filipino at heart.
+                Today, Sugar Momma is more than a brand. It's a living archive of Regina's journey — recipes she developed in Tokyo, techniques she refined in Paris, and flavors that have always been Filipino at heart.
               </p>
             </div>
 
@@ -88,12 +88,12 @@
               <blockquote class="font-serif text-cream-100 text-2xl italic leading-relaxed">
                 "A perfect pastry should taste like it came from someone who loves you. The technique is just the beginning."
               </blockquote>
-              <p class="font-sans text-cream-200/40 text-sm mt-4">— Chef Maria Santos</p>
+              <p class="font-sans text-cream-200/40 text-sm mt-4">— Chef Regina Faustino</p>
             </div>
 
             <!-- CTA -->
             <div class="flex flex-wrap gap-4">
-              <NuxtLink to="/classes" class="btn-gold">Learn from Chef Maria</NuxtLink>
+              <NuxtLink to="/classes" class="btn-gold">Learn from Chef Regina</NuxtLink>
               <NuxtLink to="/recipes" class="btn-outline">Explore Her Recipes</NuxtLink>
             </div>
           </div>
@@ -124,10 +124,10 @@ const timeline = [
   { year: '2009', title: 'Le Cordon Bleu, Paris', detail: 'Graduated with Pâtisserie Grand Diplôme' },
   { year: '2010', title: 'Nihonbashi Yukari, Tokyo', detail: '3-year tenure under Chef Kimio Nonaga' },
   { year: '2013', title: 'L\'Atelier de Joël Robuchon, Hong Kong', detail: 'Stage program, dessert innovation' },
-  { year: '2015', title: 'Pioneer Centre Manila', detail: 'Appointed Head Executive Pastry Chef' },
-  { year: '2019', title: 'Esquire Philippines', detail: 'Named "Chef to Watch" — Class of 2019' },
+  { year: '2015', title: 'ABCT Japanese Restaurant', detail: 'Appointed Head Executive Head Chef' },
+  { year: '2019', title: 'Manila Bulletin', detail: 'Named "Chef to Watch" — Class of 2019' },
   { year: '2021', title: 'Sugar Momma Founded', detail: 'Launched as an independent pastry brand' },
-  { year: '2023', title: 'Esquire Philippines', detail: 'Featured in "The New Filipino Table" cover story' },
+  { year: '2023', title: 'Manila Bulletin', detail: 'Featured in "The New Filipino Table" cover story' },
 ]
 
 const socials = [
@@ -137,7 +137,7 @@ const socials = [
 ]
 
 const pressFeatures = [
-  'Esquire Philippines',
+  'Manila Bulletin',
   'Metro Magazine',
   'Lifestyle Asia',
   'Manila Times',
@@ -145,7 +145,7 @@ const pressFeatures = [
 ]
 
 useSeoMeta({
-  title: 'About Chef Maria Santos — Sugar Momma',
-  description: 'Meet Chef Maria Santos, Executive Pastry Chef and founder of Sugar Momma. From Le Cordon Bleu to Tokyo to Manila — a story of precision, passion, and pastry.',
+  title: 'About Chef Regina Faustino — Sugar Momma',
+  description: 'Meet Chef Regina Faustino, Executive Head Chef and founder of Sugar Momma. From Le Cordon Bleu to Tokyo to Manila — a story of precision, passion, and pastry.',
 })
 </script>

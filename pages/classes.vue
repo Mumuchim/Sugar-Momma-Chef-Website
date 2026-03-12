@@ -20,12 +20,12 @@
           </div>
           <div>
             <p class="section-label">Your Instructor</p>
-            <h2 class="heading-section mb-4">Chef Maria Santos</h2>
+            <h2 class="heading-section mb-4">Chef Regina Faustino</h2>
             <div class="gold-divider" />
             <p class="font-sans text-cream-200/70 leading-relaxed mb-6">
               With over 12 years in Japanese fine-dining kitchens across Tokyo and Manila,
-              Chef Maria brings the precision and artistry of Michelin-star pastry to intimate
-              group classes designed for serious home cooks and aspiring pastry chefs.
+              Chef Regina brings the precision and artistry of Michelin-star pastry to intimate
+              group classes designed for serious home cooks and aspiring Head Chefs.
             </p>
             <div class="grid grid-cols-2 gap-4">
               <div v-for="cred in credentials" :key="cred" class="border border-charcoal-600 p-4">
@@ -94,8 +94,8 @@ const openBooking = (cls: Class) => {
 const credentials = [
   'Le Cordon Bleu, Paris — Pâtisserie Diploma',
   'Nihonbashi Yukari, Tokyo — 3-year tenure',
-  'Pioneer Centre Manila — Head Pastry Chef',
-  'Featured in Esquire Philippines 2023',
+  'ABCT Japanese Restaurant — Executive Head Chef',
+  'Featured in Manila Bulletin 2023',
 ]
 
 useSeoMeta({ title: 'Cooking Classes — Sugar Momma' })

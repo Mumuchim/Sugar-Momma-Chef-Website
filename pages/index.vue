@@ -58,7 +58,7 @@
             <div class="aspect-[3/4] overflow-hidden relative max-w-md">
               <img
                 src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80"
-                alt="Chef Maria Santos — Sugar Momma"
+                alt="Chef Regina Faustino — Sugar Momma"
                 class="w-full h-full object-cover"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-charcoal-950/50 to-transparent" />
@@ -67,8 +67,8 @@
             <div class="absolute -bottom-4 -right-4 w-full h-full border border-gold/20 max-w-md pointer-events-none" />
             <!-- Chef name badge -->
             <div class="absolute bottom-6 left-6 bg-charcoal-950/90 backdrop-blur-sm border border-charcoal-700 px-5 py-3">
-              <p class="font-serif text-cream-100 text-lg">Chef Maria Santos</p>
-              <p class="font-sans text-gold text-xs uppercase tracking-widest mt-0.5">Executive Pastry Chef</p>
+              <p class="font-serif text-cream-100 text-lg">Chef Regina Faustino</p>
+              <p class="font-sans text-gold text-xs uppercase tracking-widest mt-0.5">Executive Head Chef</p>
             </div>
           </div>
 
@@ -82,7 +82,7 @@
             <div class="gold-divider" />
 
             <p class="font-sans text-cream-200/70 leading-relaxed mb-5">
-              Sugar Momma was born from Chef Maria's dream of bringing the
+              Sugar Momma was born from Chef Regina's dream of bringing the
               discipline of Japanese fine-dining pastry to every table in the
               Philippines. After over 12 years in Michelin-starred kitchens
               across Tokyo and Manila, she returned home to build something
@@ -279,8 +279,8 @@ const collectionPreviews = [
 const credentials = [
   { label: 'Education', title: 'Le Cordon Bleu, Paris — Pâtisserie Diploma' },
   { label: 'Experience', title: 'Nihonbashi Yukari, Tokyo — 3-year tenure' },
-  { label: 'Current Role', title: 'Pioneer Centre Manila — Head Pastry Chef' },
-  { label: 'Recognition', title: 'Featured in Esquire Philippines 2023' },
+  { label: 'Current Role', title: 'ABCT Japanese Restaurant — Executive Head Chef' },
+  { label: 'Recognition', title: 'Featured in Manila Bulletin 2023' },
 ]
 
 const formatPrice = (price: number) => price.toLocaleString('en-PH')

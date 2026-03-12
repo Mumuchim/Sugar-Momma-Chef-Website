@@ -46,7 +46,7 @@
         class="font-sans text-cream-200/40 uppercase tracking-[0.18em] mt-0.5"
         :class="size === 'sm' ? 'text-[8px]' : 'text-[9px]'"
       >
-        Fine Pastry &amp; Artisan Sweets
+        Fine Pastry &amp; Premium Cuisine
       </span>
     </div>
   </NuxtLink>
