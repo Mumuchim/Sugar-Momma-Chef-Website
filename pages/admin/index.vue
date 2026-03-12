@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-      <StatCard v-for="stat in stats" :key="stat.label" v-bind="stat" />
+      <AdminStatCard v-for="stat in stats" :key="stat.label" v-bind="stat" />
     </div>
 
     <div class="grid lg:grid-cols-2 gap-6">

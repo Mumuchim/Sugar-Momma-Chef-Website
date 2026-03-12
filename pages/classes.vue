@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageHero
+    <UiPageHero
       label="Learn the Craft"
       title="Cooking Classes"
       subtitle="Small group sessions where technique meets creativity."
@@ -47,7 +47,7 @@
       </div>
 
       <div v-else-if="classes.length" class="space-y-6">
-        <ClassCard
+        <UiClassCard
           v-for="cls in classes"
           :key="cls.id"
           :class-item="cls"
@@ -62,13 +62,13 @@
     </section>
 
     <!-- Booking Modal -->
-    <ClassBookingModal
+    <UiClassBookingModal
       v-if="selectedClass"
       :class-item="selectedClass"
       @close="selectedClass = null"
     />
 
-    <NewsletterSignup />
+    <UiNewsletterSignup />
   </div>
 </template>
 

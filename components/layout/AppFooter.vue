@@ -9,7 +9,7 @@
       <div class="grid md:grid-cols-4 gap-12 mb-12">
         <!-- Brand -->
         <div class="md:col-span-2">
-          <SugarMommaLogo size="md" show-tagline class="mb-5" />
+          <UiSugarMommaLogo size="md" show-tagline class="mb-5" />
           <p class="font-sans text-cream-200/50 text-sm leading-relaxed max-w-xs">
             Premium pastry artistry rooted in Japanese fine-dining tradition.
             Crafted with discipline, plated with passion.
@@ -75,7 +75,10 @@
         <div class="flex items-center gap-6">
           <NuxtLink to="/privacy" class="font-sans text-xs text-cream-200/30 hover:text-cream-200/60 transition-colors">Privacy Policy</NuxtLink>
           <NuxtLink to="/terms" class="font-sans text-xs text-cream-200/30 hover:text-cream-200/60 transition-colors">Terms of Service</NuxtLink>
-          <NuxtLink to="/admin/login" class="font-sans text-xs text-cream-200/20 hover:text-cream-200/50 transition-colors">Admin</NuxtLink>
+          <NuxtLink to="/admin/login" class="font-sans text-xs text-cream-200/50 hover:text-gold transition-colors flex items-center gap-1">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            Admin Login
+          </NuxtLink>
         </div>
 
         <!-- Back to top -->

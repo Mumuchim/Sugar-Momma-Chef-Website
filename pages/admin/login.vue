@@ -8,7 +8,7 @@
     <div class="relative w-full max-w-md">
       <div class="text-center mb-12">
         <div class="flex justify-center">
-          <SugarMommaLogo size="lg" />
+          <UiSugarMommaLogo size="lg" />
         </div>
         <p class="font-sans text-cream-200/40 text-sm mt-4 tracking-widest uppercase">Admin Access</p>
       </div>

@@ -2,7 +2,7 @@
   <div>
     <!-- Loading -->
     <div v-if="pending" class="min-h-screen flex items-center justify-center">
-      <LoadingSpinner />
+      <UiLoadingSpinner />
     </div>
 
     <!-- Not found -->

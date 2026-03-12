@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageHero label="Get in Touch" title="Contact" subtitle="Inquiries, collaborations, and press." />
+    <UiPageHero label="Get in Touch" title="Contact" subtitle="Inquiries, collaborations, and press." />
 
     <section class="py-20 container mx-auto px-6 lg:px-16 max-w-4xl">
       <div class="grid lg:grid-cols-2 gap-16">

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageHero label="Legal" title="Terms of Service" subtitle="The rules and guidelines for using Sugar Momma's services." />
+    <UiPageHero label="Legal" title="Terms of Service" subtitle="The rules and guidelines for using Sugar Momma's services." />
 
     <section class="py-20 container mx-auto px-6 lg:px-16 max-w-3xl">
       <NuxtLink to="/" class="inline-flex items-center gap-2 font-sans text-xs text-cream-200/40 hover:text-gold transition-colors uppercase tracking-widest mb-12">

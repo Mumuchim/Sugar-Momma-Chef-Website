@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageHero label="Legal" title="Privacy Policy" subtitle="How we collect, use, and protect your information." />
+    <UiPageHero label="Legal" title="Privacy Policy" subtitle="How we collect, use, and protect your information." />
 
     <section class="py-20 container mx-auto px-6 lg:px-16 max-w-3xl">
       <!-- Back link -->

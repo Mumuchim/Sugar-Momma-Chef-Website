@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Page Hero -->
-    <PageHero
+    <UiPageHero
       label="The Blog"
       title="Recipes"
       :subtitle="'Techniques, stories, and the craft behind every creation.'"

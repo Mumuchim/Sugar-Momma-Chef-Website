@@ -18,11 +18,6 @@
 
       <div class="relative container mx-auto px-6 lg:px-16 max-w-7xl">
         <div class="max-w-3xl">
-          <!-- Brand mark in hero -->
-          <div class="mb-8 opacity-0 animate-fade-up animate-delay-100">
-            <SugarMommaLogo size="lg" show-tagline />
-          </div>
-
           <h1 class="heading-display opacity-0 animate-fade-up animate-delay-200">
             Where Japanese<br />
             precision meets<br />
@@ -258,7 +253,7 @@
     </section>
 
     <!-- ── NEWSLETTER ────────────────────────────────────────── -->
-    <NewsletterSignup />
+    <UiNewsletterSignup />
   </div>
 </template>
 

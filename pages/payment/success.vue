@@ -11,7 +11,7 @@
       <h1 class="font-serif text-cream-100 text-4xl mb-4">
         <span v-if="type === 'order'">Deposit Received</span>
         <span v-else-if="type === 'class'">Booking Confirmed!</span>
-        <span v-else">You're all set</span>
+        <span v-else>You're all set</span>
       </h1>
 
       <p class="font-sans text-cream-200/60 leading-relaxed mb-10">

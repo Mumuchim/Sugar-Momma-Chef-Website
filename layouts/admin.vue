@@ -23,7 +23,9 @@
           @click="signOut"
           class="w-full flex items-center gap-3 px-4 py-2.5 text-cream-200/50 hover:text-cream-100 font-sans text-sm transition-colors duration-200"
         >
-          <IconLogOut class="w-4 h-4" />
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
           Sign Out
         </button>
       </div>
@@ -34,7 +36,7 @@
       <header class="bg-charcoal-900 border-b border-charcoal-700 px-8 py-4 flex items-center justify-between sticky top-0 z-20">
         <h1 class="font-serif text-lg text-cream-100">{{ pageTitle }}</h1>
         <div class="flex items-center gap-3">
-          <ThemeToggle />
+          <UiThemeToggle />
           <span class="font-sans text-xs text-cream-200/40">{{ userEmail }}</span>
           <div class="w-8 h-8 rounded-full bg-gold/20 border border-gold/30 flex items-center justify-center">
             <span class="text-gold font-serif text-sm">{{ userInitial }}</span>

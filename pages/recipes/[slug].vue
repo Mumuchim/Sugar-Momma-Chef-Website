@@ -150,7 +150,7 @@
   </div>
 
   <div v-else-if="pending" class="min-h-screen flex items-center justify-center">
-    <LoadingSpinner />
+    <UiLoadingSpinner />
   </div>
 
   <div v-else class="min-h-screen flex items-center justify-center">
@@ -165,11 +165,10 @@ const { fetchRecipeBySlug } = useRecipes()
 const recipe = ref<any>(null)
 const pending = ref(true)
 
-const { currentServings, scaledIngredients, scalingFactor, increment, decrement } = (() => {
-  const base = computed(() => recipe.value?.base_servings || 4)
-  const ings = computed(() => recipe.value?.ingredients || [])
-  return useServings(ings.value, base.value)
-})()
+const baseServings = computed(() => recipe.value?.base_servings || 4)
+const recipeIngredients = computed(() => recipe.value?.ingredients || [])
+
+const { currentServings, scaledIngredients, scalingFactor, increment, decrement } = useServings(recipeIngredients, baseServings)
 
 // Refetch-safe on mount
 onMounted(async () => {

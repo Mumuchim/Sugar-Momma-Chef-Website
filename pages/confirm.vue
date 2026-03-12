@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-charcoal-950 flex items-center justify-center px-6">
     <div class="text-center max-w-md">
       <div class="mb-8">
-        <SugarMommaLogo size="lg" class="justify-center" />
+        <UiSugarMommaLogo size="lg" class="justify-center" />
       </div>
 
       <div v-if="error" class="border border-red-500/30 bg-red-500/10 p-6 mb-6">
@@ -12,7 +12,7 @@
       </div>
 
       <div v-else class="space-y-4">
-        <LoadingSpinner />
+        <UiLoadingSpinner />
         <p class="font-sans text-cream-200/60 text-sm mt-4">Completing sign-in…</p>
       </div>
     </div>

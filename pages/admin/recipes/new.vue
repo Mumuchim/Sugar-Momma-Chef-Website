@@ -188,7 +188,7 @@ const route = useRoute()
 const router = useRouter()
 const supabase = useSupabaseClient()
 const { success, error: toastError } = useToast()
-const isEditing = computed(() => !!route.params.id)
+const isEditing = computed(() => !!route.query.id)
 
 // Form state
 const form = reactive({
@@ -263,11 +263,11 @@ onMounted(async () => {
   const { data } = await supabase.from('collections').select('id, title').eq('is_published', true)
   collections.value = data || []
 
-  if (route.params.id) {
+  if (route.query.id) {
     const { data: existing } = await supabase
       .from('recipes')
       .select('*, ingredients(*), instructions(*)')
-      .eq('id', route.params.id)
+      .eq('id', route.query.id)
       .single()
     if (existing) {
       Object.assign(form, existing)

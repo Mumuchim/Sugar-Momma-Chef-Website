@@ -16,7 +16,22 @@ export default defineNuxtConfig({
     redirectOptions: {
       login: '/admin/login',
       callback: '/confirm',
-      exclude: ['/', '/recipes/*', '/collections', '/classes', '/contact', '/collections/*'],
+      exclude: [
+        '/',
+        '/about',
+        '/recipes',
+        '/recipes/*',
+        '/collections',
+        '/collections/*',
+        '/classes',
+        '/contact',
+        '/orders',
+        '/terms',
+        '/privacy',
+        '/payment/success',
+        '/payment/cancelled',
+        '/confirm',
+      ],
     },
   },
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageHero
+    <UiPageHero
       label="Exclusive"
       title="Premium Collections"
       subtitle="Themed recipe sets, fully unlocked for a one-time payment."
@@ -8,11 +8,11 @@
 
     <section class="py-20 container mx-auto px-6 lg:px-16 max-w-7xl">
       <div v-if="pending" class="grid md:grid-cols-2 gap-10">
-        <CollectionCardSkeleton v-for="i in 4" :key="i" />
+        <UiCollectionCardSkeleton v-for="i in 4" :key="i" />
       </div>
 
       <div v-else class="grid md:grid-cols-2 gap-10">
-        <CollectionCard
+        <RecipeCollectionCard
           v-for="collection in collections"
           :key="collection.id"
           :collection="collection"

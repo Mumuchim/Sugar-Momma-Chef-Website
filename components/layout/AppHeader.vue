@@ -6,7 +6,7 @@
     <div class="container mx-auto px-6 lg:px-16 max-w-7xl">
       <div class="flex items-center justify-between h-18">
         <!-- Logo -->
-        <SugarMommaLogo :show-tagline="scrolled" />
+        <UiSugarMommaLogo :show-tagline="true" />
 
         <!-- Desktop nav -->
         <nav class="hidden md:flex items-center gap-8">
@@ -24,7 +24,7 @@
         </nav>
 
         <div class="flex items-center gap-3">
-          <ThemeToggle />
+          <UiThemeToggle />
           <NuxtLink to="/orders" class="btn-gold text-xs py-2.5 px-5 hidden md:inline-flex">
             Order Now
           </NuxtLink>
@@ -74,7 +74,7 @@
           <NuxtLink to="/orders" class="btn-gold flex-1 text-center mr-3" @click="mobileOpen = false">
             Order Now
           </NuxtLink>
-          <ThemeToggle />
+          <UiThemeToggle />
         </div>
       </div>
     </Transition>
@@ -93,6 +93,7 @@ const route = useRoute()
 watch(() => route.path, () => { mobileOpen.value = false })
 
 const navLinks = [
+  { to: '/', label: 'Home' },
   { to: '/recipes', label: 'Recipes' },
   { to: '/collections', label: 'Collections' },
   { to: '/classes', label: 'Classes' },

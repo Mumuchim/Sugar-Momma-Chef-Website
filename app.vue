@@ -2,7 +2,7 @@
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
-  <ToastContainer />
+  <UiToastContainer />
 </template>
 
 <script setup lang="ts">

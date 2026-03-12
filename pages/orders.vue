@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageHero
+    <UiPageHero
       label="Bespoke Creations"
       title="Custom Orders"
       subtitle="Commission a one-of-a-kind pastry for your most special occasions."

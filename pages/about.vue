@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageHero
+    <UiPageHero
       label="The Story"
       title="About Sugar Momma"
       subtitle="Where discipline meets sweetness — a chef's journey from Tokyo to Manila."
@@ -115,7 +115,7 @@
       </div>
     </section>
 
-    <NewsletterSignup />
+    <UiNewsletterSignup />
   </div>
 </template>
 
