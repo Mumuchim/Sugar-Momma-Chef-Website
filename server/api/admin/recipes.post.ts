@@ -15,6 +15,8 @@ export default defineEventHandler(async (event) => {
     .from('recipes')
     .upsert({
       ...recipe,
+      // Convert empty string to null so FK constraint is satisfied
+      collection_id: recipe.collection_id || null,
       updated_at: new Date().toISOString(),
     })
     .select('id')

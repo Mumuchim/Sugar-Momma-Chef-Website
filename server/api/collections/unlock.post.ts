@@ -41,7 +41,8 @@ export default defineEventHandler(async (event) => {
         type: 'collection_purchase',
         collection_id: collection.id,
         user_email: userEmail,
-        user_id: userId || null,
+        // PayMongo metadata values must be strings — omit user_id if not available
+        ...(userId ? { user_id: userId } : {}),
       },
       successUrl: `${config.public.siteUrl}/payment/success?type=collection&id=${collectionId}`,
       cancelUrl: `${config.public.siteUrl}/payment/cancelled`,

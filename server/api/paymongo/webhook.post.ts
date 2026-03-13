@@ -161,10 +161,22 @@ async function handleCollectionPurchase(
     }
   }
 
-  // Grant collection access
+  // Grant collection access — check first to avoid duplicate rows on webhook retry
+  const { data: existingAccess } = await supabase
+    .from('user_collection_access')
+    .select('id')
+    .eq('user_id', resolvedUserId)
+    .eq('collection_id', collectionId)
+    .maybeSingle()
+
+  if (existingAccess) {
+    console.log(`[PayMongo] User ${resolvedUserId} already has access to collection ${collectionId} — skipping duplicate grant`)
+    return
+  }
+
   const { error: accessError } = await supabase
     .from('user_collection_access')
-    .upsert({
+    .insert({
       user_id: resolvedUserId,
       collection_id: collectionId,
       payment_ref: paymongoRef,

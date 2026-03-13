@@ -12,6 +12,7 @@
           <option value="pending">Pending</option>
           <option value="deposit_paid">Deposit Paid</option>
           <option value="in_progress">In Progress</option>
+          <option value="ready">Ready</option>
           <option value="completed">Completed</option>
           <option value="cancelled">Cancelled</option>
         </select>
@@ -66,6 +67,7 @@
                 <option value="pending">Pending</option>
                 <option value="deposit_paid">Deposit Paid</option>
                 <option value="in_progress">In Progress</option>
+                <option value="ready">Ready</option>
                 <option value="completed">Completed</option>
                 <option value="cancelled">Cancelled</option>
               </select>
@@ -123,6 +125,7 @@
                 <option value="pending">Pending</option>
                 <option value="deposit_paid">Deposit Paid</option>
                 <option value="in_progress">In Progress</option>
+                <option value="ready">Ready</option>
                 <option value="completed">Completed</option>
                 <option value="cancelled">Cancelled</option>
               </select>

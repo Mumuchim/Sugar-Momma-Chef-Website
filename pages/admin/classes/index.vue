@@ -78,9 +78,9 @@
               <div>
                 <label class="admin-label">Level</label>
                 <select v-model="form.level" class="input-dark">
-                  <option>Beginner</option>
-                  <option>Intermediate</option>
-                  <option>Advanced</option>
+                  <option value="beginner">Beginner</option>
+                  <option value="intermediate">Intermediate</option>
+                  <option value="advanced">Advanced</option>
                 </select>
               </div>
               <div>
@@ -152,7 +152,7 @@ const deleteTarget = ref<any>(null)
 const deleting = ref(false)
 
 const emptyForm = () => ({
-  title: '', description: '', level: 'Beginner', price_php: 0,
+  title: '', description: '', level: 'beginner', price_php: 0,
   schedule_date: '', total_slots: 10, location: '', is_published: false
 })
 

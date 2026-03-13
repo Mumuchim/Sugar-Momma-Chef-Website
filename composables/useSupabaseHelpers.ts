@@ -26,6 +26,8 @@ export const useRecipes = () => {
       `)
       .eq('slug', slug)
       .eq('is_published', true)
+      .order('sort_order', { referencedTable: 'ingredients' })
+      .order('step_number', { referencedTable: 'instructions' })
       .single()
     return { data, error }
   }
@@ -63,11 +65,17 @@ export const useCollections = () => {
       .from('collections')
       .select(`
         *,
-        recipes (id, slug, title, thumbnail_url, difficulty, prep_time_mins, is_premium)
+        recipes (id, slug, title, thumbnail_url, difficulty, prep_time_mins, is_premium, is_published)
       `)
       .eq('slug', slug)
       .eq('is_published', true)
       .single()
+
+    // Filter out unpublished recipes — they should not be visible to users
+    if (data?.recipes) {
+      data.recipes = data.recipes.filter((r: any) => r.is_published)
+    }
+
     return { data, error }
   }
 
