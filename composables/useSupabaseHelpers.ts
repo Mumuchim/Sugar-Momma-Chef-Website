@@ -131,3 +131,18 @@ export const useAdminGuard = () => {
 
   return { checkAdmin }
 }
+
+export const useProducts = () => {
+  const supabase = useSupabaseClient()
+
+  const fetchPublishedProducts = async () => {
+    const { data, error } = await supabase
+      .from('products')
+      .select('id,slug,name,short_description,image_url,category,is_bundle,bundle_label,bundle_price_php,single_label,price_php')
+      .eq('is_published', true)
+      .order('created_at', { ascending: false })
+    return { data, error }
+  }
+
+  return { fetchPublishedProducts }
+}

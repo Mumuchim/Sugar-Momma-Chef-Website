@@ -12,9 +12,12 @@
       <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
         <AdminNavLink to="/admin" icon="grid" label="Dashboard" exact />
         <AdminNavLink to="/admin/recipes" icon="book-open" label="Recipes" />
-        <AdminNavLink to="/admin/collections" icon="layers" label="Collections" />
+        <AdminNavLink to="/admin/shop" icon="layers" label="Shop" />
+        <AdminNavLink to="/admin/shop/orders" icon="package" label="Shop Orders" />
         <AdminNavLink to="/admin/orders" icon="shopping-bag" label="Orders" />
+        <AdminNavLink to="/admin/themes" icon="star" label="Themes" />
         <AdminNavLink to="/admin/classes" icon="calendar" label="Classes" />
+        <AdminNavLink to="/admin/content" icon="edit" label="Site Content" />
         <AdminNavLink to="/admin/messages" icon="mail" label="Messages" />
       </nav>
 
@@ -63,9 +66,12 @@ const userInitial = computed(() => userEmail.value?.[0]?.toUpperCase() || 'A')
 const pageTitleMap: Record<string, string> = {
   '/admin': 'Dashboard',
   '/admin/recipes': 'Recipes',
-  '/admin/collections': 'Collections',
-  '/admin/orders': 'Orders',
+  '/admin/shop': 'Shop',
+  '/admin/shop/orders': 'Shop Orders',
+  '/admin/orders': 'Catering Orders',
+  '/admin/themes': 'Themes & Packages',
   '/admin/classes': 'Classes',
+  '/admin/content': 'Site Content',
   '/admin/messages': 'Messages',
 }
 

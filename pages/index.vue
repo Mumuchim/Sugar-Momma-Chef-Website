@@ -19,21 +19,20 @@
       <div class="relative container mx-auto px-6 lg:px-16 max-w-7xl">
         <div class="max-w-3xl">
           <h1 class="heading-display opacity-0 animate-fade-up animate-delay-200">
-            Where Japanese<br />
-            precision meets<br />
-            <span class="italic text-gold">sweetness.</span>
+            {{ hero.title_line1 }}<br />
+            {{ hero.title_line2 }}<br />
+            <span class="italic text-gold">{{ hero.title_highlight }}</span>
           </h1>
 
           <div class="gold-divider opacity-0 animate-fade-up animate-delay-300" />
 
           <p class="font-sans text-cream-200/70 text-lg leading-relaxed max-w-xl opacity-0 animate-fade-up animate-delay-300">
-            Premium pastry collections, custom orders, and intimate cooking
-            classes — crafted with the discipline of fine dining.
+            {{ hero.description }}
           </p>
 
           <div class="flex flex-wrap gap-4 mt-10 opacity-0 animate-fade-up animate-delay-400">
             <NuxtLink to="/recipes" class="btn-gold">Explore Recipes</NuxtLink>
-            <NuxtLink to="/collections" class="btn-outline">Premium Collections</NuxtLink>
+            <NuxtLink to="/shop" class="btn-outline">Browse Shop</NuxtLink>
           </div>
         </div>
 
@@ -57,8 +56,8 @@
           <div class="relative">
             <div class="aspect-[3/4] overflow-hidden relative max-w-md">
               <img
-                src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80"
-                alt="Chef Regina Faustino — Sugar Momma"
+                :src="homeChef.photo_url || 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80'"
+                :alt="`${homeChef.name} — Sugar Momma`"
                 class="w-full h-full object-cover"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-charcoal-950/50 to-transparent" />
@@ -67,30 +66,25 @@
             <div class="absolute -bottom-4 -right-4 w-full h-full border border-gold/20 max-w-md pointer-events-none" />
             <!-- Chef name badge -->
             <div class="absolute bottom-6 left-6 bg-charcoal-950/90 backdrop-blur-sm border border-charcoal-700 px-5 py-3">
-              <p class="font-serif text-cream-100 text-lg">Chef Regina Faustino</p>
-              <p class="font-sans text-gold text-xs uppercase tracking-widest mt-0.5">Executive Head Chef</p>
+              <p class="font-serif text-cream-100 text-lg">{{ homeChef.name }}</p>
+              <p class="font-sans text-gold text-xs uppercase tracking-widest mt-0.5">{{ homeChef.badge_role }}</p>
             </div>
           </div>
 
           <!-- Bio content -->
           <div>
-            <p class="section-label">The Woman Behind Sugar Momma</p>
+            <p class="section-label">{{ homeChef.section_label }}</p>
             <h2 class="heading-section mb-6">
-              Crafted with<br />
-              <span class="italic text-gold">passion & precision.</span>
+              {{ homeChef.heading }}<br />
+              <span class="italic text-gold">{{ homeChef.heading_highlight }}</span>
             </h2>
             <div class="gold-divider" />
 
             <p class="font-sans text-cream-200/70 leading-relaxed mb-5">
-              Sugar Momma was born from Chef Regina's dream of bringing the
-              discipline of Japanese fine-dining pastry to every table in the
-              Philippines. After over 12 years in Michelin-starred kitchens
-              across Tokyo and Manila, she returned home to build something
-              deeply personal — a place where technique and soul coexist.
+              {{ homeChef.bio_para1 }}
             </p>
             <p class="font-sans text-cream-200/70 leading-relaxed mb-8">
-              Every recipe, every class, every custom creation carries her
-              signature: meticulous, heartfelt, and unmistakably Sugar Momma.
+              {{ homeChef.bio_para2 }}
             </p>
 
             <!-- Credentials grid -->
@@ -143,42 +137,54 @@
       </div>
     </section>
 
-    <!-- ── PREMIUM TEASER ────────────────────────────────────── -->
+    <!-- ── SHOP TEASER ──────────────────────────────────────── -->
     <section class="py-28 bg-charcoal-800 clip-diagonal relative overflow-hidden">
       <div class="absolute inset-0 bg-noise opacity-50" />
       <div class="relative container mx-auto px-6 lg:px-16 max-w-7xl">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
           <div>
-            <p class="section-label">Exclusive Content</p>
+            <p class="section-label">{{ shop.label }}</p>
             <h2 class="heading-section mb-6">
-              Premium Recipe<br />Collections
+              {{ shop.title }}<br />{{ shop.title_line2 }}
             </h2>
             <div class="gold-divider" />
             <p class="font-sans text-cream-200/70 leading-relaxed mb-8 max-w-md">
-              Curated themed collections with full video breakdowns, technique
-              deep-dives, and exclusive pastry secrets — unlocked for a one-time price.
+              {{ shop.description }}
             </p>
-            <NuxtLink to="/collections" class="btn-gold">Browse Collections</NuxtLink>
+            <NuxtLink to="/shop" class="btn-gold">Browse Shop</NuxtLink>
           </div>
 
           <div class="grid grid-cols-2 gap-4">
-            <div
-              v-for="(item, i) in collectionPreviews"
-              :key="i"
+            <NuxtLink
+              v-for="(product, i) in shopTeaserProducts"
+              :key="product.id"
+              :to="`/shop/${product.slug}`"
               class="aspect-square bg-charcoal-900 overflow-hidden relative group"
               :class="i === 0 ? 'mt-8' : ''"
             >
               <img
-                :src="item.img"
-                :alt="item.title"
-                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60"
+                v-if="product.image_url"
+                :src="product.image_url"
+                :alt="product.name"
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-80"
               />
+              <div v-else class="w-full h-full bg-charcoal-800 flex items-center justify-center">
+                <span class="text-gold/20 text-4xl">🍰</span>
+              </div>
               <div class="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-transparent to-transparent" />
               <div class="absolute bottom-4 left-4 right-4">
-                <p class="font-serif text-cream-100 text-sm">{{ item.title }}</p>
-                <p class="font-sans text-gold text-xs mt-0.5">{{ item.count }} recipes</p>
+                <p class="font-serif text-cream-100 text-sm group-hover:text-gold transition-colors">{{ product.name }}</p>
+                <p class="font-sans text-gold text-xs mt-0.5">{{ product.is_bundle ? 'Bundle available' : 'Pickup & Delivery' }}</p>
               </div>
-            </div>
+            </NuxtLink>
+            <NuxtLink
+              v-for="n in Math.max(0, 4 - shopTeaserProducts.length)"
+              :key="`ph-${n}`"
+              to="/shop"
+              class="aspect-square bg-charcoal-900 border border-dashed border-charcoal-700 flex items-center justify-center"
+            >
+              <p class="font-serif text-cream-200/20 text-sm italic">Coming soon</p>
+            </NuxtLink>
           </div>
         </div>
       </div>
@@ -269,12 +275,45 @@ const { data: upcomingClasses } = useAsyncData('upcoming-classes', () =>
   fetchUpcomingClasses().then((r) => (r.data || []).slice(0, 3))
 )
 
-const collectionPreviews = [
-  { img: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=400&q=80', title: 'Japanese Wagashi', count: 8 },
-  { img: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?w=400&q=80', title: 'French Pâtisserie', count: 12 },
-  { img: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=400&q=80', title: 'Seasonal Tarts', count: 6 },
-  { img: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80', title: 'Choux Mastery', count: 10 },
-]
+const { data: shopTeaserProducts } = useAsyncData('shop-teaser', () =>
+  $fetch<any[]>('/api/products').then((data) => (data || []).slice(0, 4)).catch(() => [])
+)
+
+// Fetch editable site content
+const { data: heroContent } = useAsyncData('content-home-hero', () =>
+  $fetch('/api/content/home_hero').catch(() => null)
+)
+const { data: shopContent } = useAsyncData('content-home-shop', () =>
+  $fetch('/api/content/home_shop_teaser').catch(() => null)
+)
+const { data: homeChefContent } = useAsyncData('content-home-chef', () =>
+  $fetch('/api/content/home_chef').catch(() => null)
+)
+
+const hero = computed(() => ({
+  title_line1:     (heroContent.value as any)?.title_line1     ?? 'Where Japanese',
+  title_line2:     (heroContent.value as any)?.title_line2     ?? 'precision meets',
+  title_highlight: (heroContent.value as any)?.title_highlight ?? 'sweetness.',
+  description:     (heroContent.value as any)?.description     ?? 'Custom catering orders, fresh baked goods, and intimate cooking classes — crafted with the discipline of fine dining.',
+}))
+
+const shop = computed(() => ({
+  label:       (shopContent.value as any)?.label       ?? 'Order Online',
+  title:       (shopContent.value as any)?.title       ?? 'Fresh Baked',
+  title_line2: (shopContent.value as any)?.title_line2 ?? 'Goods',
+  description: (shopContent.value as any)?.description ?? 'Artisan pastries made to order — available per piece or in bundles. Choose pickup from Rizal or have them delivered to your door.',
+}))
+
+const homeChef = computed(() => ({
+  photo_url:         (homeChefContent.value as any)?.photo_url         ?? '',
+  name:              (homeChefContent.value as any)?.name              ?? 'Chef Regina Faustino',
+  badge_role:        (homeChefContent.value as any)?.badge_role        ?? 'Executive Head Chef',
+  section_label:     (homeChefContent.value as any)?.section_label     ?? 'The Woman Behind Sugar Momma',
+  heading:           (homeChefContent.value as any)?.heading           ?? 'Crafted with',
+  heading_highlight: (homeChefContent.value as any)?.heading_highlight ?? 'passion & precision.',
+  bio_para1:         (homeChefContent.value as any)?.bio_para1         ?? "Sugar Momma was born from Chef Regina's dream of bringing the discipline of Japanese fine-dining pastry to every table in the Philippines. After over 12 years in Michelin-starred kitchens across Tokyo and Manila, she returned home to build something deeply personal — a place where technique and soul coexist.",
+  bio_para2:         (homeChefContent.value as any)?.bio_para2         ?? "Every recipe, every class, every custom creation carries her signature: meticulous, heartfelt, and unmistakably Sugar Momma.",
+}))
 
 const credentials = [
   { label: 'Education', title: 'Le Cordon Bleu, Paris — Pâtisserie Diploma' },
@@ -290,6 +329,6 @@ const formatDate = (d: string) =>
 useSeoMeta({
   title: 'Sugar Momma — Premium Pastry & Fine Dining',
   ogTitle: 'Sugar Momma — Premium Pastry & Fine Dining',
-  description: 'Premium pastry collections, custom orders, and cooking classes by Head Executive Chef specializing in Japanese fine-dining pastries.',
+  description: 'Custom catering, fresh baked goods, and cooking classes by Head Executive Chef specializing in Japanese fine-dining pastries.',
 })
 </script>

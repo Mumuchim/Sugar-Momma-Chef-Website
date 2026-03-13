@@ -396,3 +396,81 @@ CREATE POLICY "Public read step-photos"
   ON storage.objects FOR SELECT USING (bucket_id = 'step-photos');
 CREATE POLICY "Admin upload step-photos"
   ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'step-photos' AND public.is_admin());
+
+-- ═══════════════════════════════════════════════════════════
+-- SHOP — Products & Shop Orders
+-- ═══════════════════════════════════════════════════════════
+
+-- ─── PRODUCTS ────────────────────────────────────────────────
+CREATE TABLE public.products (
+  id                  UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  slug                TEXT UNIQUE NOT NULL,
+  name                TEXT NOT NULL,
+  short_description   TEXT,
+  description         TEXT,
+  image_url           TEXT,
+  category            TEXT,                        -- 'cakes','pastries','cookies','bread','seasonal'
+  price_php           NUMERIC(10,2) NOT NULL,
+  single_label        TEXT DEFAULT 'Per piece',    -- e.g. "Per slice", "Per jar"
+  single_description  TEXT,
+  is_bundle           BOOLEAN DEFAULT FALSE NOT NULL,
+  bundle_label        TEXT,                        -- e.g. "Box of 6"
+  bundle_price_php    NUMERIC(10,2),
+  bundle_description  TEXT,
+  allows_cod          BOOLEAN DEFAULT FALSE NOT NULL, -- admin can enable Cash on Delivery per product
+  is_published        BOOLEAN DEFAULT FALSE NOT NULL,
+  created_at          TIMESTAMPTZ DEFAULT NOW() NOT NULL,
+  updated_at          TIMESTAMPTZ DEFAULT NOW() NOT NULL
+);
+
+CREATE TRIGGER products_updated_at BEFORE UPDATE ON public.products
+  FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
+
+ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can view published products"
+  ON public.products FOR SELECT USING (is_published = TRUE);
+
+CREATE POLICY "Admins manage products"
+  ON public.products FOR ALL USING (public.is_admin());
+
+-- ─── SHOP ORDERS ─────────────────────────────────────────────
+-- Separate from catering/custom orders — these are upfront full-payment shop purchases
+CREATE TABLE public.shop_orders (
+  id                    UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  product_id            UUID REFERENCES public.products(id) ON DELETE SET NULL,
+  product_name          TEXT NOT NULL,             -- snapshot at time of order
+  is_bundle             BOOLEAN DEFAULT FALSE NOT NULL,
+  unit_price_php        NUMERIC(10,2) NOT NULL,
+  quantity              INT DEFAULT 1 NOT NULL CHECK (quantity >= 1),
+  total_php             NUMERIC(10,2) NOT NULL,
+  fulfillment_type      TEXT CHECK (fulfillment_type IN ('pickup','delivery')) NOT NULL,
+  delivery_address      TEXT,
+  customer_name         TEXT NOT NULL,
+  customer_email        TEXT NOT NULL,
+  customer_phone        TEXT,
+  notes                 TEXT,
+  status                TEXT CHECK (status IN ('pending','paid','preparing','ready','completed','cancelled')) DEFAULT 'pending',
+  payment_method        TEXT CHECK (payment_method IN ('online','cod')) DEFAULT 'online',
+  lookup_token          UUID DEFAULT uuid_generate_v4() NOT NULL UNIQUE, -- used for order tracking auth
+  paymongo_ref          TEXT,
+  paymongo_checkout_url TEXT,
+  created_at            TIMESTAMPTZ DEFAULT NOW() NOT NULL,
+  updated_at            TIMESTAMPTZ DEFAULT NOW() NOT NULL
+);
+
+CREATE TRIGGER shop_orders_updated_at BEFORE UPDATE ON public.shop_orders
+  FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
+
+ALTER TABLE public.shop_orders ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can insert a shop order"
+  ON public.shop_orders FOR INSERT WITH CHECK (TRUE);
+
+CREATE POLICY "Admins manage all shop orders"
+  ON public.shop_orders FOR ALL USING (public.is_admin());
+
+-- Index for fast email lookups (order tracking page)
+CREATE INDEX idx_shop_orders_customer_email ON public.shop_orders (customer_email);
+-- Index for lookup_token (order tracking auth)
+CREATE INDEX idx_shop_orders_lookup_token ON public.shop_orders (lookup_token);

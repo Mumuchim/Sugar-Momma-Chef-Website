@@ -26,7 +26,7 @@
         <div class="flex items-center gap-3">
           <UiThemeToggle />
           <NuxtLink to="/orders" class="btn-gold text-xs py-2.5 px-5 hidden md:inline-flex">
-            Order Now
+            Book Now
           </NuxtLink>
 
           <!-- Mobile menu toggle -->
@@ -72,7 +72,7 @@
         <!-- Mobile: Order + Theme toggle row -->
         <div class="flex items-center justify-between pt-2">
           <NuxtLink to="/orders" class="btn-gold flex-1 text-center mr-3" @click="mobileOpen = false">
-            Order Now
+            Book Now
           </NuxtLink>
           <UiThemeToggle />
         </div>
@@ -95,7 +95,7 @@ watch(() => route.path, () => { mobileOpen.value = false })
 const navLinks = [
   { to: '/', label: 'Home' },
   { to: '/recipes', label: 'Recipes' },
-  { to: '/collections', label: 'Collections' },
+  { to: '/shop', label: 'Shop' },
   { to: '/classes', label: 'Classes' },
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },

@@ -14,7 +14,7 @@
         <span v-else>You're all set</span>
       </h1>
 
-      <p class="font-sans text-cream-200/60 leading-relaxed mb-10">
+      <p class="font-sans text-cream-200/60 leading-relaxed mb-8">
         <span v-if="type === 'order'">
           Your 50% deposit has been received. We'll reach out within 24 hours to finalize your custom order details and confirm your event date.
         </span>
@@ -26,9 +26,23 @@
         </span>
       </p>
 
+      <!-- Order tracking token (shop orders only) -->
+      <div v-if="type === 'shop' && lookupToken" class="border border-charcoal-700 bg-charcoal-900/50 p-5 mb-8 text-left">
+        <p class="font-sans text-xs text-cream-200/40 uppercase tracking-widest mb-2">Your Order Reference</p>
+        <p class="font-mono text-gold text-sm break-all mb-3">{{ lookupToken }}</p>
+        <p class="font-sans text-cream-200/40 text-xs leading-relaxed">
+          Save this token — you'll need it along with your email to track your order on the
+          <NuxtLink to="/track" class="text-gold hover:text-gold-light transition-colors">Track My Order</NuxtLink>
+          page.
+        </p>
+      </div>
+
       <div class="flex flex-wrap gap-4 justify-center">
         <NuxtLink v-if="type === 'class'" to="/classes" class="btn-outline">
           View Classes
+        </NuxtLink>
+        <NuxtLink v-else-if="type === 'shop'" to="/track" class="btn-outline">
+          Track My Order
         </NuxtLink>
         <NuxtLink v-else-if="type === 'order'" to="/orders" class="btn-outline">
           Place Another Order
@@ -43,5 +57,8 @@
 definePageMeta({ layout: false })
 const route = useRoute()
 const type = computed(() => route.query.type as string || '')
-useSeoMeta({ title: 'Payment Confirmed — Sugar Momma' })
+const method = computed(() => route.query.method as string || 'online')
+const lookupToken = computed(() => route.query.token as string || '')
+const isCod = computed(() => method.value === 'cod')
+useSeoMeta({ title: 'Order Confirmed — Sugar Momma' })
 </script>

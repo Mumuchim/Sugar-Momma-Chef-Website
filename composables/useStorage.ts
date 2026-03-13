@@ -4,7 +4,7 @@ export const useStorage = () => {
   const config = useRuntimeConfig()
 
   const uploadFile = async (
-    bucket: 'recipe-media' | 'collection-covers' | 'class-covers' | 'step-photos',
+    bucket: 'recipe-media' | 'collection-covers' | 'class-covers' | 'step-photos' | 'product-images' | 'theme-covers' | 'site-content',
     file: File,
     path: string
   ): Promise<{ url: string | null; error: Error | null }> => {

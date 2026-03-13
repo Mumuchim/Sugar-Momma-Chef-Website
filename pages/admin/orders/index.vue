@@ -1,22 +1,20 @@
 <template>
   <div>
-    <!-- Header -->
     <div class="flex items-center justify-between mb-8">
       <div>
-        <p class="font-sans text-cream-200/40 text-sm">Manage</p>
-        <h1 class="font-serif text-cream-100 text-2xl">Custom Orders</h1>
+        <h2 class="font-serif text-cream-100 text-2xl">Catering Orders</h2>
+        <p class="font-sans text-cream-200/40 text-sm mt-1">Custom order inquiries from customers</p>
       </div>
-      <div class="flex items-center gap-3">
-        <select v-model="statusFilter" class="input-dark text-sm py-2 w-40">
-          <option value="">All Statuses</option>
-          <option value="pending">Pending</option>
-          <option value="deposit_paid">Deposit Paid</option>
-          <option value="in_progress">In Progress</option>
-          <option value="ready">Ready</option>
-          <option value="completed">Completed</option>
-          <option value="cancelled">Cancelled</option>
-        </select>
-      </div>
+      <select v-model="statusFilter" class="input-dark text-sm py-2 w-44">
+        <option value="">All Statuses</option>
+        <option value="inquiry">Inquiry</option>
+        <option value="quoted">Quoted</option>
+        <option value="deposit_paid">Deposit Paid</option>
+        <option value="in_progress">In Progress</option>
+        <option value="ready">Ready</option>
+        <option value="completed">Completed</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
     </div>
 
     <!-- Loading -->
@@ -24,13 +22,14 @@
       <div v-for="i in 5" :key="i" class="h-20 bg-charcoal-800 animate-pulse border border-charcoal-700" />
     </div>
 
-    <!-- Orders table -->
+    <!-- Table -->
     <div v-else-if="filteredOrders.length" class="border border-charcoal-700 overflow-x-auto">
       <table class="w-full min-w-[700px]">
         <thead>
           <tr class="border-b border-charcoal-700 bg-charcoal-800">
             <th class="text-left px-6 py-3 font-sans text-xs text-cream-200/40 uppercase tracking-widest">Customer</th>
             <th class="text-left px-4 py-3 font-sans text-xs text-cream-200/40 uppercase tracking-widest">Occasion</th>
+            <th class="text-left px-4 py-3 font-sans text-xs text-cream-200/40 uppercase tracking-widest">Theme</th>
             <th class="text-left px-4 py-3 font-sans text-xs text-cream-200/40 uppercase tracking-widest">Event Date</th>
             <th class="text-left px-4 py-3 font-sans text-xs text-cream-200/40 uppercase tracking-widest">Status</th>
             <th class="text-right px-6 py-3 font-sans text-xs text-cream-200/40 uppercase tracking-widest">Actions</th>
@@ -40,22 +39,22 @@
           <tr
             v-for="order in filteredOrders"
             :key="order.id"
-            class="hover:bg-charcoal-800/50 transition-colors duration-150 group cursor-pointer"
+            class="hover:bg-charcoal-800/50 transition-colors cursor-pointer"
             @click="openOrder(order)"
           >
             <td class="px-6 py-4">
               <p class="font-sans text-cream-100 text-sm">{{ order.customer_name }}</p>
               <p class="font-sans text-cream-200/40 text-xs mt-0.5">{{ order.customer_email }}</p>
             </td>
+            <td class="px-4 py-4 font-sans text-cream-200/60 text-sm">{{ order.occasion }}</td>
             <td class="px-4 py-4">
-              <span class="font-sans text-cream-200/60 text-sm">{{ order.occasion }}</span>
+              <span v-if="order.theme_name" class="font-sans text-xs text-gold/70 border border-gold/20 px-2 py-0.5">{{ order.theme_name }}</span>
+              <span v-else class="text-cream-200/20 text-xs">—</span>
             </td>
-            <td class="px-4 py-4">
-              <span class="font-sans text-cream-200/60 text-sm">{{ formatDate(order.event_date) }}</span>
-            </td>
+            <td class="px-4 py-4 font-sans text-cream-200/60 text-sm">{{ formatDate(order.event_date) }}</td>
             <td class="px-4 py-4">
               <span class="font-sans text-xs px-2.5 py-1 uppercase tracking-widest border" :class="statusClass(order.status)">
-                {{ order.status?.replace('_', ' ') }}
+                {{ statusLabel(order.status) }}
               </span>
             </td>
             <td class="px-6 py-4 text-right" @click.stop>
@@ -64,7 +63,8 @@
                 @change="updateStatus(order, ($event.target as HTMLSelectElement).value)"
                 class="font-sans text-xs bg-charcoal-700 border border-charcoal-600 text-cream-100 px-2 py-1 focus:outline-none focus:border-gold/60"
               >
-                <option value="pending">Pending</option>
+                <option value="inquiry">Inquiry</option>
+                <option value="quoted">Quoted</option>
                 <option value="deposit_paid">Deposit Paid</option>
                 <option value="in_progress">In Progress</option>
                 <option value="ready">Ready</option>
@@ -77,7 +77,6 @@
       </table>
     </div>
 
-    <!-- Empty -->
     <div v-else class="text-center py-20 border border-charcoal-700">
       <p class="font-serif text-cream-200/30 text-2xl italic">No orders yet.</p>
     </div>
@@ -86,17 +85,20 @@
     <Teleport to="body">
       <div v-if="selectedOrder" class="fixed inset-0 z-50 flex items-center justify-center p-4" @click.self="selectedOrder = null">
         <div class="absolute inset-0 bg-charcoal-950/90 backdrop-blur-sm" />
-        <div class="relative bg-charcoal-900 border border-charcoal-700 w-full max-w-lg p-8">
+        <div class="relative bg-charcoal-900 border border-charcoal-700 w-full max-w-lg max-h-[90vh] overflow-y-auto p-8">
           <button @click="selectedOrder = null" class="absolute top-4 right-4 text-cream-200/40 hover:text-cream-100 text-xl">×</button>
 
           <p class="section-label mb-2">Order Details</p>
-          <h2 class="font-serif text-cream-100 text-2xl mb-6">{{ selectedOrder.customer_name }}</h2>
+          <h2 class="font-serif text-cream-100 text-2xl mb-1">{{ selectedOrder.customer_name }}</h2>
+          <span class="font-sans text-xs px-2.5 py-1 uppercase tracking-widest border mb-6 inline-block" :class="statusClass(selectedOrder.status)">
+            {{ statusLabel(selectedOrder.status) }}
+          </span>
 
-          <div class="space-y-4">
+          <div class="space-y-5 mt-4">
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <p class="font-sans text-xs text-cream-200/40 uppercase tracking-widest mb-1">Email</p>
-                <p class="font-sans text-cream-100 text-sm">{{ selectedOrder.customer_email }}</p>
+                <a :href="`mailto:${selectedOrder.customer_email}`" class="font-sans text-gold text-sm hover:underline">{{ selectedOrder.customer_email }}</a>
               </div>
               <div>
                 <p class="font-sans text-xs text-cream-200/40 uppercase tracking-widest mb-1">Phone</p>
@@ -111,10 +113,72 @@
                 <p class="font-sans text-cream-100 text-sm">{{ formatDate(selectedOrder.event_date) }}</p>
               </div>
             </div>
-            <div>
-              <p class="font-sans text-xs text-cream-200/40 uppercase tracking-widest mb-1">Notes / Vision</p>
-              <p class="font-sans text-cream-200/70 text-sm leading-relaxed bg-charcoal-800 border border-charcoal-700 p-4">{{ selectedOrder.notes }}</p>
+
+            <div v-if="selectedOrder.theme_name">
+              <p class="font-sans text-xs text-cream-200/40 uppercase tracking-widest mb-1">Selected Theme</p>
+              <span class="font-sans text-sm text-gold/80 border border-gold/20 px-2 py-1 inline-block">{{ selectedOrder.theme_name }}</span>
             </div>
+
+            <div>
+              <p class="font-sans text-xs text-cream-200/40 uppercase tracking-widest mb-1">Vision & Notes</p>
+              <p class="font-sans text-cream-200/70 text-sm leading-relaxed bg-charcoal-800 border border-charcoal-700 p-4 whitespace-pre-wrap">{{ selectedOrder.notes }}</p>
+            </div>
+
+            <div class="gold-divider" />
+
+            <!-- Quote + payment section -->
+            <div class="space-y-4">
+              <p class="section-label">Quote & Payment</p>
+
+              <div v-if="selectedOrder.deposit_amount" class="flex items-center justify-between border border-charcoal-700 px-4 py-3">
+                <div>
+                  <p class="font-sans text-xs text-cream-200/40 uppercase tracking-widest mb-0.5">Deposit Sent</p>
+                  <p class="font-serif text-gold">₱{{ formatPrice(selectedOrder.deposit_amount) }}</p>
+                </div>
+                <a
+                  v-if="selectedOrder.paymongo_checkout_url"
+                  :href="selectedOrder.paymongo_checkout_url"
+                  target="_blank"
+                  class="font-sans text-xs text-gold/70 hover:text-gold uppercase tracking-widest transition-colors"
+                >
+                  Open Link ↗
+                </a>
+              </div>
+
+              <!-- Set agreed price & generate deposit link -->
+              <div class="border border-charcoal-700 p-5 space-y-4">
+                <p class="font-sans text-xs text-cream-200/40 uppercase tracking-widest">Generate Deposit Payment Link</p>
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block font-sans text-xs text-cream-200/60 uppercase tracking-widest mb-2">Total Agreed Price (₱)</label>
+                    <input v-model.number="quotedTotal" type="number" min="1" class="input-dark" placeholder="e.g. 6000" />
+                  </div>
+                  <div>
+                    <label class="block font-sans text-xs text-cream-200/60 uppercase tracking-widest mb-2">Deposit % </label>
+                    <select v-model="depositPercent" class="input-dark">
+                      <option :value="50">50%</option>
+                      <option :value="30">30%</option>
+                      <option :value="100">100% (Full)</option>
+                    </select>
+                  </div>
+                </div>
+                <p v-if="quotedTotal > 0" class="font-sans text-xs text-cream-200/40">
+                  Deposit amount: <span class="text-gold font-serif">₱{{ formatPrice(Math.round(quotedTotal * depositPercent / 100)) }}</span>
+                </p>
+                <button
+                  class="btn-gold w-full justify-center text-sm"
+                  :disabled="!quotedTotal || generatingLink"
+                  @click="generatePaymentLink"
+                >
+                  {{ generatingLink ? 'Generating…' : '⚡ Generate & Copy Payment Link' }}
+                </button>
+                <p v-if="generatedLink" class="font-sans text-xs text-green-400/80 break-all">
+                  ✓ Link copied! <a :href="generatedLink" target="_blank" class="underline">Open ↗</a>
+                </p>
+              </div>
+            </div>
+
+            <!-- Status update -->
             <div>
               <p class="font-sans text-xs text-cream-200/40 uppercase tracking-widest mb-2">Update Status</p>
               <select
@@ -122,7 +186,8 @@
                 @change="updateStatus(selectedOrder, selectedOrder.status)"
                 class="input-dark text-sm"
               >
-                <option value="pending">Pending</option>
+                <option value="inquiry">Inquiry</option>
+                <option value="quoted">Quoted</option>
                 <option value="deposit_paid">Deposit Paid</option>
                 <option value="in_progress">In Progress</option>
                 <option value="ready">Ready</option>
@@ -147,6 +212,10 @@ const orders = ref<any[]>([])
 const pending = ref(true)
 const statusFilter = ref('')
 const selectedOrder = ref<any>(null)
+const quotedTotal = ref(0)
+const depositPercent = ref(50)
+const generatingLink = ref(false)
+const generatedLink = ref('')
 
 const filteredOrders = computed(() =>
   statusFilter.value ? orders.value.filter(o => o.status === statusFilter.value) : orders.value
@@ -163,31 +232,98 @@ onMounted(async () => {
 
 const openOrder = (order: any) => {
   selectedOrder.value = { ...order }
+  quotedTotal.value = order.total_amount || 0
+  generatedLink.value = order.paymongo_checkout_url || ''
 }
 
 const updateStatus = async (order: any, newStatus: string) => {
-  const { error } = await supabase
-    .from('orders')
-    .update({ status: newStatus })
-    .eq('id', order.id)
+  const { error } = await supabase.from('orders').update({ status: newStatus }).eq('id', order.id)
   if (error) {
     toastError('Failed to update status.')
   } else {
     const idx = orders.value.findIndex(o => o.id === order.id)
     if (idx !== -1) orders.value[idx].status = newStatus
-    success(`Status updated to "${newStatus.replace('_', ' ')}".`)
+    success(`Status updated to "${statusLabel(newStatus)}".`)
   }
 }
 
+const generatePaymentLink = async () => {
+  if (!selectedOrder.value || !quotedTotal.value) return
+  generatingLink.value = true
+  generatedLink.value = ''
+
+  const depositAmount = Math.round(quotedTotal.value * depositPercent.value / 100)
+
+  try {
+    const { checkout_url } = await $fetch<any>('/api/paymongo/checkout', {
+      method: 'POST',
+      body: {
+        lineItems: [{
+          name: `Custom Order Deposit — ${selectedOrder.value.occasion}`,
+          amount: depositAmount,
+          description: `${depositPercent.value}% deposit for custom order (Event: ${selectedOrder.value.event_date})`,
+          quantity: 1,
+        }],
+        description: `Deposit — ${selectedOrder.value.customer_name}`,
+        metadata: {
+          type: 'order_deposit',
+          order_id: selectedOrder.value.id,
+          user_email: selectedOrder.value.customer_email,
+        },
+        successUrl: `${window.location.origin}/payment/success?type=order`,
+        cancelUrl: `${window.location.origin}/orders`,
+      },
+    })
+
+    // Save to DB
+    await supabase.from('orders').update({
+      total_amount: quotedTotal.value,
+      deposit_amount: depositAmount,
+      paymongo_checkout_url: checkout_url,
+      status: 'quoted',
+    }).eq('id', selectedOrder.value.id)
+
+    const idx = orders.value.findIndex(o => o.id === selectedOrder.value.id)
+    if (idx !== -1) {
+      orders.value[idx].status = 'quoted'
+      orders.value[idx].paymongo_checkout_url = checkout_url
+    }
+    selectedOrder.value.status = 'quoted'
+    selectedOrder.value.paymongo_checkout_url = checkout_url
+    selectedOrder.value.deposit_amount = depositAmount
+
+    generatedLink.value = checkout_url
+    await navigator.clipboard.writeText(checkout_url).catch(() => {})
+    success('Payment link generated and copied!')
+  } catch (e: any) {
+    toastError(e.data?.message || 'Failed to generate payment link.')
+  } finally {
+    generatingLink.value = false
+  }
+}
+
+const statusLabel = (s: string) => ({
+  inquiry: 'Inquiry',
+  quoted: 'Quoted',
+  deposit_paid: 'Deposit Paid',
+  in_progress: 'In Progress',
+  ready: 'Ready',
+  completed: 'Completed',
+  cancelled: 'Cancelled',
+}[s] || s)
+
 const statusClass = (status: string) => ({
-  'bg-amber-900/30 text-amber-400 border-amber-500/20': status === 'pending',
-  'bg-blue-900/30 text-blue-400 border-blue-500/20': status === 'deposit_paid',
+  'bg-amber-900/30 text-amber-400 border-amber-500/20': status === 'inquiry',
+  'bg-blue-900/30 text-blue-400 border-blue-500/20': status === 'quoted',
+  'bg-indigo-900/30 text-indigo-400 border-indigo-500/20': status === 'deposit_paid',
   'bg-purple-900/30 text-purple-400 border-purple-500/20': status === 'in_progress',
+  'bg-teal-900/30 text-teal-400 border-teal-500/20': status === 'ready',
   'bg-emerald-900/30 text-emerald-400 border-emerald-500/20': status === 'completed',
   'bg-red-900/30 text-red-400 border-red-500/20': status === 'cancelled',
 })
 
 const formatDate = (d: string) => d ? new Date(d).toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' }) : '—'
+const formatPrice = (p: number) => Number(p).toLocaleString('en-PH')
 
 useSeoMeta({ title: 'Orders — Admin · Sugar Momma' })
 </script>

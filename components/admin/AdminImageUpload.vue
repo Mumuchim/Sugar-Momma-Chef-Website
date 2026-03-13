@@ -24,7 +24,7 @@
       >
         {{ uploading ? 'Uploading…' : (currentUrl ? 'Replace' : 'Upload') }}
       </button>
-      <span v-if="currentUrl && compact" class="font-sans text-xs text-emerald-400">✓ Uploaded</span>
+      <span v-if="currentUrl && compact" class="font-sans text-xs text-emerald-400">✓ {{ label }}</span>
       <span v-if="uploadError" class="font-sans text-xs text-red-400">{{ uploadError }}</span>
     </div>
   </div>
@@ -34,7 +34,7 @@
 const props = defineProps<{
   label: string
   currentUrl?: string
-  bucket: 'recipe-media' | 'collection-covers' | 'class-covers' | 'step-photos'
+  bucket: 'recipe-media' | 'collection-covers' | 'class-covers' | 'step-photos' | 'product-images' | 'theme-covers'
   path: string
   compact?: boolean
 }>()

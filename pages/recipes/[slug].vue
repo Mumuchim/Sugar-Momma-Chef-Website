@@ -59,6 +59,27 @@
         <!-- LEFT: Ingredients (sticky) -->
         <aside class="lg:col-span-1 order-2 lg:order-1">
           <div class="lg:sticky lg:top-20 space-y-8">
+
+            <!-- PREMIUM LOCK STATE -->
+            <div v-if="recipe.is_premium && !hasAccess" class="border border-gold/30 bg-gold/5 p-8 text-center">
+              <div class="text-gold/40 text-4xl mb-4">🔒</div>
+              <p class="font-serif text-cream-100 text-lg mb-2">Premium Recipe</p>
+              <p class="font-sans text-cream-200/50 text-sm leading-relaxed mb-6">
+                This recipe is part of the
+                <span class="text-gold">{{ recipe.collection?.title }}</span>
+                collection. Unlock it to see all ingredients and steps.
+              </p>
+              <NuxtLink
+                v-if="recipe.collection?.slug"
+                :to="`/collections/${recipe.collection.slug}`"
+                class="btn-gold w-full justify-center"
+              >
+                Unlock Collection — ₱{{ Number(recipe.collection?.price_php).toLocaleString('en-PH') }}
+              </NuxtLink>
+            </div>
+
+            <!-- NORMAL INGREDIENTS (non-premium or has access) -->
+            <template v-else>
             <!-- Serving multiplier -->
             <div class="border border-charcoal-700 p-6">
               <p class="section-label mb-4">Adjust Servings</p>
@@ -95,6 +116,7 @@
                 </li>
               </ul>
             </div>
+            </template>
           </div>
         </aside>
 
@@ -161,9 +183,11 @@
 <script setup lang="ts">
 const route = useRoute()
 const { fetchRecipeBySlug } = useRecipes()
+const { checkUserAccess } = useCollections()
 
 const recipe = ref<any>(null)
 const pending = ref(true)
+const hasAccess = ref(false)
 
 const baseServings = computed(() => recipe.value?.base_servings || 4)
 const recipeIngredients = computed(() => recipe.value?.ingredients || [])
@@ -174,6 +198,12 @@ const { currentServings, scaledIngredients, scalingFactor, increment, decrement 
 onMounted(async () => {
   const { data } = await fetchRecipeBySlug(route.params.slug as string)
   recipe.value = data
+  // Check collection access if this is a premium recipe
+  if (data?.is_premium && data?.collection_id) {
+    hasAccess.value = await checkUserAccess(data.collection_id)
+  } else if (!data?.is_premium) {
+    hasAccess.value = true
+  }
   pending.value = false
 })
 
@@ -185,7 +215,7 @@ const embedUrl = computed(() => {
     return `https://www.youtube.com/embed/${id}`
   }
   if (url.includes('youtu.be/')) {
-    const id = url.split('youtu.be/')[1]
+    const id = url.split('youtu.be/')[1].split('?')[0]
     return `https://www.youtube.com/embed/${id}`
   }
   return url

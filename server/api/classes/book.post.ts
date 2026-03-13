@@ -13,41 +13,57 @@ export default defineEventHandler(async (event) => {
 
   const supabase = createClient(config.public.supabaseUrl, config.supabaseServiceKey)
 
-  // Check available slots
-  const { data: cls, error: clsError } = await supabase
+  // ── Atomic booking: check capacity + insert in a single DB transaction ───
+  // This prevents the race condition where two concurrent requests both pass
+  // the capacity check and both insert, resulting in overbooking.
+  const { data: bookingResult, error: bookingError } = await supabase
+    .rpc('atomic_book_class', {
+      p_class_id: class_id,
+      p_customer_name: customer_name,
+      p_customer_email: customer_email,
+      p_customer_phone: customer_phone || null,
+    })
+
+  if (bookingError) {
+    console.error('[book.post] atomic_book_class error:', bookingError)
+    throw createError({ statusCode: 500, message: 'Failed to create booking.' })
+  }
+
+  // The function returns {ok, booking_id, error_code}
+  if (!bookingResult?.ok) {
+    if (bookingResult?.error_code === 'NOT_FOUND') {
+      throw createError({ statusCode: 404, message: 'Class not found.' })
+    }
+    if (bookingResult?.error_code === 'FULLY_BOOKED') {
+      throw createError({ statusCode: 409, message: 'This class is fully booked.' })
+    }
+    throw createError({ statusCode: 500, message: 'Could not reserve your spot.' })
+  }
+
+  const bookingId = bookingResult.booking_id
+
+  // Fetch class details for checkout line item
+  const { data: cls } = await supabase
     .from('classes')
-    .select('id, title, price_php, total_slots, booked_slots')
+    .select('title, price_php')
     .eq('id', class_id)
-    .eq('is_published', true)
     .single()
-
-  if (clsError || !cls) throw createError({ statusCode: 404, message: 'Class not found.' })
-  if (cls.booked_slots >= cls.total_slots) throw createError({ statusCode: 409, message: 'This class is fully booked.' })
-
-  // Create booking record
-  const { data: booking, error: bookingError } = await supabase
-    .from('class_bookings')
-    .insert({ class_id, customer_name, customer_email, customer_phone, status: 'pending' })
-    .select('id')
-    .single()
-
-  if (bookingError) throw createError({ statusCode: 500, message: 'Failed to create booking.' })
 
   // Create checkout
   const checkout = await $fetch<any>('/api/paymongo/checkout', {
     method: 'POST',
     body: {
       lineItems: [{
-        name: `Cooking Class: ${cls.title}`,
-        amount: cls.price_php,
+        name: `Cooking Class: ${cls?.title ?? 'Class'}`,
+        amount: cls?.price_php ?? 0,
         description: 'Cooking class booking',
         quantity: 1,
       }],
-      description: `Booking: ${cls.title}`,
+      description: `Booking: ${cls?.title ?? 'Class'}`,
       metadata: {
         type: 'class_booking',
-        booking_id: booking.id,
-        class_id: cls.id,
+        booking_id: bookingId,
+        class_id,
         user_email: customer_email,
       },
       successUrl: `${config.public.siteUrl}/payment/success?type=class`,
@@ -58,7 +74,7 @@ export default defineEventHandler(async (event) => {
   await supabase
     .from('class_bookings')
     .update({ paymongo_checkout_url: checkout.checkout_url })
-    .eq('id', booking.id)
+    .eq('id', bookingId)
 
-  return { data: { checkout_url: checkout.checkout_url, booking_id: booking.id } }
+  return { data: { checkout_url: checkout.checkout_url, booking_id: bookingId } }
 })

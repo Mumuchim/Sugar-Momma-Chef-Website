@@ -102,11 +102,12 @@
 <script setup lang="ts">
 const links = [
   { to: '/recipes', label: 'Recipes' },
-  { to: '/collections', label: 'Premium Collections' },
+  { to: '/shop', label: 'Shop' },
   { to: '/classes', label: 'Cooking Classes' },
   { to: '/orders', label: 'Custom Orders' },
   { to: '/about', label: 'About Chef Regina' },
   { to: '/contact', label: 'Contact' },
+  { to: '/track', label: 'Track My Order' },
 ]
 
 const scrollToTop = () => {

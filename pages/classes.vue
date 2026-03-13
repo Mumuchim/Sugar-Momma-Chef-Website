@@ -1,34 +1,32 @@
 <template>
   <div>
     <UiPageHero
-      label="Learn the Craft"
-      title="Cooking Classes"
-      subtitle="Small group sessions where technique meets creativity."
+      :label="hero.label"
+      :title="hero.title"
+      :subtitle="hero.subtitle"
     />
 
-    <!-- Chef Bio -->
+    <!-- Instructor Bio -->
     <section class="py-20 bg-charcoal-800">
       <div class="container mx-auto px-6 lg:px-16 max-w-7xl">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
           <div class="aspect-[4/5] bg-charcoal-700 overflow-hidden relative">
             <img
-              src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80"
-              alt="Chef portrait"
+              :src="instructor.photo_url || 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80'"
+              :alt="`${instructor.name} — Instructor`"
               class="w-full h-full object-cover"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 to-transparent" />
           </div>
           <div>
             <p class="section-label">Your Instructor</p>
-            <h2 class="heading-section mb-4">Chef Regina Faustino</h2>
+            <h2 class="heading-section mb-4">{{ instructor.name }}</h2>
             <div class="gold-divider" />
             <p class="font-sans text-cream-200/70 leading-relaxed mb-6">
-              With over 12 years in Japanese fine-dining kitchens across Tokyo and Manila,
-              Chef Regina brings the precision and artistry of Michelin-star pastry to intimate
-              group classes designed for serious home cooks and aspiring Head Chefs.
+              {{ instructor.bio }}
             </p>
             <div class="grid grid-cols-2 gap-4">
-              <div v-for="cred in credentials" :key="cred" class="border border-charcoal-600 p-4">
+              <div v-for="cred in instructor.credentials" :key="cred" class="border border-charcoal-600 p-4">
                 <p class="font-sans text-cream-100 text-sm">{{ cred }}</p>
               </div>
             </div>
@@ -91,12 +89,27 @@ const openBooking = (cls: Class) => {
   selectedClass.value = cls
 }
 
-const credentials = [
-  'Le Cordon Bleu, Paris — Pâtisserie Diploma',
-  'Nihonbashi Yukari, Tokyo — 3-year tenure',
-  'ABCT Japanese Restaurant — Executive Head Chef',
-  'Featured in Manila Bulletin 2023',
-]
+// Fetch editable site content
+const { data: heroData }       = useAsyncData('content-classes-hero',       () => $fetch('/api/content/classes_hero').catch(() => null))
+const { data: instructorData } = useAsyncData('content-classes-instructor', () => $fetch('/api/content/classes_instructor').catch(() => null))
+
+const hero = computed(() => ({
+  label:    (heroData.value as any)?.label    ?? 'Learn the Craft',
+  title:    (heroData.value as any)?.title    ?? 'Cooking Classes',
+  subtitle: (heroData.value as any)?.subtitle ?? 'Small group sessions where technique meets creativity.',
+}))
+
+const instructor = computed(() => ({
+  name:        (instructorData.value as any)?.name        ?? 'Chef Regina Faustino',
+  photo_url:   (instructorData.value as any)?.photo_url   ?? 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80',
+  bio:         (instructorData.value as any)?.bio         ?? 'With over 12 years in Japanese fine-dining kitchens across Tokyo and Manila, Chef Regina brings the precision and artistry of Michelin-star pastry to intimate group classes designed for serious home cooks and aspiring Head Chefs.',
+  credentials: ((instructorData.value as any)?.credentials as string[]) ?? [
+    'Le Cordon Bleu, Paris — Pâtisserie Diploma',
+    'Nihonbashi Yukari, Tokyo — 3-year tenure',
+    'ABCT Japanese Restaurant — Executive Head Chef',
+    'Featured in Manila Bulletin 2023',
+  ],
+}))
 
 useSeoMeta({ title: 'Cooking Classes — Sugar Momma' })
 </script>

@@ -134,9 +134,8 @@ async function handleCollectionPurchase(
 
   // If no userId in metadata, find or create user by email
   if (!resolvedUserId) {
-    // Check if user exists
-    const { data: { users } } = await supabase.auth.admin.listUsers()
-    const existing = users.find((u) => u.email === userEmail)
+    // Direct indexed lookup — avoids loading all users into memory
+    const { data: { user: existing } } = await supabase.auth.admin.getUserByEmail(userEmail)
 
     if (existing) {
       resolvedUserId = existing.id

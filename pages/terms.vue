@@ -34,7 +34,7 @@
 const sections = [
   {
     title: 'Acceptance of Terms',
-    content: 'By accessing or using Sugar Momma\'s website, placing orders, booking classes, or purchasing collections, you agree to be bound by these Terms of Service. If you do not agree, please do not use our services.',
+    content: 'By accessing or using Sugar Momma\'s website, placing orders, booking classes, or purchasing from the shop, you agree to be bound by these Terms of Service. If you do not agree, please do not use our services.',
   },
   {
     title: 'Custom Orders',
@@ -45,7 +45,7 @@ const sections = [
     content: 'Class bookings are confirmed upon successful payment. Cancellations made more than 72 hours before the class date will receive a full refund. Cancellations within 72 hours are non-refundable but may be transferred to another class date subject to availability.',
   },
   {
-    title: 'Premium Collections',
+    title: 'Shop Products',
     content: 'Premium recipe collection purchases grant lifetime access to the purchased content for personal, non-commercial use. Sharing, redistributing, or reselling collection content is strictly prohibited. Refunds are not available once collection access has been granted.',
   },
   {

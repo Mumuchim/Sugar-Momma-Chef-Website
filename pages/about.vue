@@ -14,8 +14,8 @@
           <div class="relative sticky top-32">
             <div class="aspect-[3/4] overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80"
-                alt="Chef Regina Faustino — Executive Head Chef, Sugar Momma"
+                :src="chef.portrait_url || 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80'"
+                :alt="`${chef.name} — Executive Head Chef, Sugar Momma`"
                 class="w-full h-full object-cover"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-charcoal-950/40 to-transparent" />
@@ -40,27 +40,13 @@
           <div class="space-y-12">
             <div>
               <p class="section-label">Executive Head Chef</p>
-              <h2 class="heading-section mb-2">Chef Regina Faustino</h2>
-              <p class="font-sans text-gold/70 text-sm uppercase tracking-widest">Founder & Head Chef, Sugar Momma</p>
+              <h2 class="heading-section mb-2">{{ chef.name }}</h2>
+              <p class="font-sans text-gold/70 text-sm uppercase tracking-widest">{{ chef.role }}</p>
               <div class="gold-divider" />
             </div>
 
             <div class="space-y-6 font-sans text-cream-200/70 leading-relaxed">
-              <p>
-                Chef Regina Faustino grew up watching her grandmother make kakanin in a small kitchen in Bulacan — measuring nothing, wasting nothing, pouring everything into each piece. That memory became the foundation of everything she would later learn to do with precision.
-              </p>
-              <p>
-                After graduating from <span class="text-cream-100">Le Cordon Bleu in Paris</span> with a Pâtisserie Diploma, Maria spent three formative years in Tokyo at <span class="text-cream-100">Nihonbashi Yukari</span>, a restaurant renowned for bridging Japanese kaiseki tradition with French technique. It was there she fell in love with the philosophy of <em class="text-gold not-italic">kanso</em> — simplicity as the highest form of refinement.
-              </p>
-              <p>
-                Returning to Rizal as Executive Head Chef at <span class="text-cream-100">ABCT Japanese Restaurant</span>, she led the dessert program that earned the restaurant its first appearance in the Asia's 50 Best extended list. But the kitchen, while fulfilling, wasn't enough.
-              </p>
-              <p>
-                <span class="text-cream-100 font-medium">Sugar Momma</span> was Regina's answer to a simpler question: what if the most exquisite pastry wasn't locked inside a fine-dining reservation? What if it could live in your home, in your kitchen, in the hands of someone she taught herself?
-              </p>
-              <p>
-                Today, Sugar Momma is more than a brand. It's a living archive of Regina's journey — recipes she developed in Tokyo, techniques she refined in Paris, and flavors that have always been Filipino at heart.
-              </p>
+              <p v-for="(para, i) in chef.bio" :key="i">{{ para }}</p>
             </div>
 
             <!-- Credentials -->
@@ -86,7 +72,7 @@
               <div class="absolute top-0 right-0 w-24 h-24 border-l border-b border-gold/10 pointer-events-none" />
               <p class="section-label mb-4">Chef's Philosophy</p>
               <blockquote class="font-serif text-cream-100 text-2xl italic leading-relaxed">
-                "A perfect pastry should taste like it came from someone who loves you. The technique is just the beginning."
+                "{{ chef.philosophy_quote }}"
               </blockquote>
               <p class="font-sans text-cream-200/40 text-sm mt-4">— Chef Regina Faustino</p>
             </div>
@@ -120,29 +106,44 @@
 </template>
 
 <script setup lang="ts">
-const timeline = [
+const { data: chefData }     = useAsyncData('about-chef',     () => $fetch('/api/content/about_chef').catch(() => null))
+const { data: timelineData } = useAsyncData('about-timeline', () => $fetch('/api/content/about_timeline').catch(() => null))
+const { data: pressData }    = useAsyncData('about-press',    () => $fetch('/api/content/about_press').catch(() => null))
+const { data: socialsData }  = useAsyncData('about-socials',  () => $fetch('/api/content/about_socials').catch(() => null))
+
+const chef = computed(() => ({
+  name:            (chefData.value as any)?.name            ?? 'Chef Regina Faustino',
+  role:            (chefData.value as any)?.role            ?? 'Founder & Head Chef, Sugar Momma',
+  portrait_url:    (chefData.value as any)?.portrait_url    ?? 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80',
+  philosophy_quote:(chefData.value as any)?.philosophy_quote ?? 'A perfect pastry should taste like it came from someone who loves you. The technique is just the beginning.',
+  bio: ((chefData.value as any)?.bio as string[]) ?? [
+    'Chef Regina Faustino grew up watching her grandmother make kakanin in a small kitchen in Bulacan — measuring nothing, wasting nothing, pouring everything into each piece. That memory became the foundation of everything she would later learn to do with precision.',
+    'After graduating from Le Cordon Bleu in Paris with a Pâtisserie Diploma, she spent three formative years in Tokyo at Nihonbashi Yukari, a restaurant renowned for bridging Japanese kaiseki tradition with French technique. It was there she fell in love with the philosophy of kanso — simplicity as the highest form of refinement.',
+    'Returning to Rizal as Executive Head Chef at ABCT Japanese Restaurant, she led the dessert program that earned the restaurant its first appearance in the Asia\'s 50 Best extended list. But the kitchen, while fulfilling, wasn\'t enough.',
+    'Sugar Momma was Regina\'s answer to a simpler question: what if the most exquisite pastry wasn\'t locked inside a fine-dining reservation? What if it could live in your home, in your kitchen, in the hands of someone she taught herself?',
+    'Today, Sugar Momma is more than a brand. It\'s a living archive of Regina\'s journey — recipes she developed in Tokyo, techniques she refined in Paris, and flavors that have always been Filipino at heart.',
+  ],
+}))
+
+const timeline = computed(() => (timelineData.value as any[]) ?? [
   { year: '2009', title: 'Le Cordon Bleu, Paris', detail: 'Graduated with Pâtisserie Grand Diplôme' },
   { year: '2010', title: 'Nihonbashi Yukari, Tokyo', detail: '3-year tenure under Chef Kimio Nonaga' },
-  { year: '2013', title: 'L\'Atelier de Joël Robuchon, Hong Kong', detail: 'Stage program, dessert innovation' },
+  { year: '2013', title: "L'Atelier de Joël Robuchon, Hong Kong", detail: 'Stage program, dessert innovation' },
   { year: '2015', title: 'ABCT Japanese Restaurant', detail: 'Appointed Head Executive Head Chef' },
   { year: '2019', title: 'Manila Bulletin', detail: 'Named "Chef to Watch" — Class of 2019' },
   { year: '2021', title: 'Sugar Momma Founded', detail: 'Launched as an independent pastry brand' },
   { year: '2023', title: 'Manila Bulletin', detail: 'Featured in "The New Filipino Table" cover story' },
-]
+])
 
-const socials = [
+const socials = computed(() => (socialsData.value as any[]) ?? [
   { label: 'Instagram', href: 'https://instagram.com' },
-  { label: 'Facebook', href: 'https://facebook.com' },
-  { label: 'YouTube', href: 'https://youtube.com' },
-]
+  { label: 'Facebook',  href: 'https://facebook.com' },
+  { label: 'YouTube',   href: 'https://youtube.com' },
+])
 
-const pressFeatures = [
-  'Manila Bulletin',
-  'Metro Magazine',
-  'Lifestyle Asia',
-  'Manila Times',
-  'CNN Philippines',
-]
+const pressFeatures = computed(() => (pressData.value as string[]) ?? [
+  'Manila Bulletin', 'Metro Magazine', 'Lifestyle Asia', 'Manila Times', 'CNN Philippines',
+])
 
 useSeoMeta({
   title: 'About Chef Regina Faustino — Sugar Momma',
